@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pourquoi Windows redemande un mot de passe réseau du jour au lendemain — finistweb.fr</title>
+<meta name="description" content="Un PC qui demandait un mot de passe réseau à chaque démarrage, sans rien avoir changé. La cause vient d'une mise à jour de sécurité Windows, et la solution propre n'est pas celle qu'on croit.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>mot-de-passe-reseau-24h2</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">réseau</span>
+      <h1 class="article-title">Pourquoi un PC redemande soudainement un mot de passe pour aller sur le serveur</h1>
+      <p class="article-lead">Rien n'a changé chez le client. Aucun mot de passe modifié, aucune manip suspecte. Et pourtant, du jour au lendemain, le lecteur réseau réclame une authentification à chaque démarrage. La cause est invisible si tu cherches du mauvais côté.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Tu débarques chez un client, un PC qui marchait nickel il y a deux semaines réclame maintenant un identifiant et un mot de passe pour accéder au lecteur réseau, à chaque démarrage. Personne n'a touché à rien. Pas de changement de mot de passe, pas de nouvelle install, pas de manip du client. Et c'est exactement ce genre de panne "sans cause visible" qui pousse à chercher dans la mauvaise direction pendant une heure. La bonne piste, elle est ailleurs, et une fois que tu la connais, ce type de ticket se résout en cinq minutes. On y revient à la fin.</p>
+
+      <h2>Pourquoi un PC qui n'a rien changé se comporte différemment</h2>
+      <p>Le réflexe naturel, c'est de chercher ce qui a changé sur la machine ou sur le serveur. Sauf que parfois, ce n'est ni l'un ni l'autre : c'est Windows lui-même qui a changé de comportement, tout seul, via une mise à jour. Pas un bug. Une décision de sécurité prise par Microsoft, appliquée silencieusement à tous les postes.</p>
+      <p>Depuis la version 24H2 de Windows 11, le protocole utilisé pour parler à un serveur de fichiers (le SMB, c'est le langage que ton PC utilise pour aller chercher des fichiers sur un lecteur réseau) exige par défaut une signature sur chaque connexion. Avant, cette signature n'était obligatoire que pour parler à un contrôleur de domaine. Maintenant, elle est exigée pour toute connexion réseau, point final.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Imagine un coursier qui livrait des colis sans jamais montrer de pièce d'identité, parce que le quartier le connaissait. Un jour, la mairie décide que tout le monde doit montrer patte blanche, même les habitués. Le coursier n'a rien fait de mal : c'est la règle du quartier qui a changé sous ses pieds. Ton PC, c'est le coursier. Le serveur, c'est la mairie qui ne le reconnaît plus sans la nouvelle pièce d'identité.</p>
+      </div>
+
+      <p>Ton cerveau cherche une cause du côté de "qu'est-ce qu'on a cassé". En fait, la bonne question c'est "qu'est-ce qui a changé tout seul". Une mise à jour Windows peut modifier des règles de sécurité sans qu'aucun humain n'ait touché à quoi que ce soit. C'est le piège classique : on suppose qu'un comportement stable depuis des mois est forcément cassé par une action récente, alors que parfois, c'est juste Windows qui a vieilli pendant que le reste restait identique.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Un poste qui redemande soudainement un mot de passe réseau sans raison visible : la première chose à vérifier, c'est la version de Windows et la date de la dernière mise à jour majeure, pas le mot de passe lui-même.</p>
+      </div>
+
+      <h2>Comment confirmer que c'est bien ça, et pas autre chose</h2>
+      <p>Avant de foncer sur une solution, il faut éliminer les fausses pistes. Un mot de passe qui ne marche plus peut aussi venir d'un compte verrouillé, d'un changement de mot de passe oublié, ou d'une horloge système décalée. Pour vérifier que c'est bien la signature SMB qui bloque, une seule commande suffit, à lancer dans PowerShell sur le poste qui pose problème :</p>
+
+      <ol class="steps">
+        <li><strong>Ouvrir PowerShell en administrateur.</strong> Clic droit sur le menu Démarrer, "Terminal (Admin)".</li>
+        <li><strong>Lancer la commande</strong> <code>Get-SmbClientConfiguration | Format-List EnableSecuritySignature, RequireSecuritySignature</code>. Si <code>RequireSecuritySignature</code> renvoie <code>True</code>, le poste exige une signature sur chaque connexion réseau.</li>
+        <li><strong>Vérifier côté serveur</strong> si le serveur ou le NAS visé supporte cette signature. Si le serveur est ancien ou mal configuré, c'est lui qui rejette la connexion, pas le mot de passe.</li>
+      </ol>
+
+      <p>Si la commande confirme l'exigence de signature et que le serveur ne sait pas y répondre correctement, le symptôme classique apparaît : popup de mot de passe en boucle, identifiants corrects refusés, lecteur réseau qui ne se monte plus tout seul au démarrage.</p>
+
+      <h2>La fausse solution qui traîne partout (et pourquoi il faut s'en méfier)</h2>
+      <p>Une fois la cause identifiée, le réflexe le plus répandu, c'est de stocker l'identifiant et le mot de passe directement dans une commande pour que Windows s'authentifie automatiquement à chaque démarrage. Ça marche, sur le moment. Le PC ne redemande plus rien. Sauf qu'il y a un prix caché à ce confort.</p>
+      <p>Un mot de passe passé en argument dans une ligne de commande reste visible : dans l'historique des commandes tapées, dans certains journaux Windows si l'audit est activé, et par n'importe quel outil qui inspecte les processus en cours d'exécution au moment où la commande tourne. Sur un seul poste, le risque paraît minime. Sur dix postes avec le même mot de passe stocké dix fois en clair, le risque se multiplie pour un gain de confort qui ne le justifie pas.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Stocker un mot de passe directement comme argument d'une commande (visible en clair dans l'historique, les logs, ou la liste des processus) pour automatiser une connexion réseau au démarrage. Ça résout le symptôme et ça crée un vrai problème de sécurité, surtout si la méthode est reproduite sur tout un parc de postes.</p>
+      </div>
+
+      <p>Ton cerveau te dit que si la commande fonctionne et que le popup disparaît, le problème est réglé. En fait, "ça marche" et "c'est propre" sont deux choses différentes, et la différence, c'est exactement ce qui sépare un dépannage bricolé d'une solution qu'on peut déployer sereinement sur tout un parc.</p>
+
+      <h2>La bonne méthode : le mot de passe ne doit jamais apparaître en clair</h2>
+      <p>La solution propre repose sur un principe simple : le gestionnaire d'identifiants de Windows (le Credential Manager) sait très bien enregistrer un identifiant et un mot de passe de façon permanente, sans que ce mot de passe transite jamais en clair dans une commande ou un script. La différence, c'est la manière de le lui donner : en saisie interactive, à la main, une seule fois, jamais en argument automatisé.</p>
+
+      <ol class="steps">
+        <li><strong>Ouvrir le Gestionnaire d'identifiants Windows.</strong> Panneau de configuration → Comptes utilisateurs → Gestionnaire d'identifiants, ou directement <code>control /name Microsoft.CredentialManager</code> dans Exécuter.</li>
+        <li><strong>Ajouter un identifiant réseau Windows.</strong> Bouton "Ajouter un identifiant Windows", renseigner l'adresse du serveur, le nom d'utilisateur, et le mot de passe directement dans l'interface graphique. À ce moment-là, le mot de passe est saisi une fois, à la main, jamais via une commande qui pourrait le laisser traîner ailleurs.</li>
+        <li><strong>Vérifier que le lecteur réseau se monte sans popup.</strong> Relancer une connexion au partage réseau : l'identifiant stocké est utilisé automatiquement, sans redemander de mot de passe.</li>
+        <li><strong>Recréer le mappage du lecteur réseau de façon persistante</strong>, sans inclure de mot de passe dans la commande, par exemple via <code>New-PSDrive -Name Z -PSProvider FileSystem -Root \\NOM-SERVEUR\partage -Persist</code>. Le credential déjà enregistré dans le Gestionnaire d'identifiants est utilisé automatiquement.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <div class="callout-label">// règle terrain</div>
+        <p>Un mot de passe ne doit jamais apparaître comme texte visible dans une commande, un script, ou une tâche planifiée. S'il faut l'enregistrer de façon permanente, il existe toujours une interface graphique ou un mécanisme prévu pour ça (Gestionnaire d'identifiants, gestionnaire de coffre, invite interactive). Le détour est à peine plus long, et il évite un vrai problème de sécurité.</p>
+      </div>
+
+      <p>Si le poste fait partie d'un domaine Active Directory, il existe une autre option encore plus propre pour généraliser ce mappage à plusieurs postes : les préférences de stratégie de groupe (GPP), qui permettent de pousser un mappage de lecteur réseau depuis le serveur, sans jamais exposer le mot de passe sur le poste client lui-même. C'est un sujet à part entière, mais la logique de fond reste la même : le mot de passe circule par un canal prévu pour ça, jamais en texte brut dans une commande.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Vérifier la version de Windows</strong> avant de chercher une cause côté serveur ou côté utilisateur, surtout si le poste fonctionnait sans souci avant une mise à jour récente.</li>
+        <li><strong>Confirmer la cause avec une seule commande</strong> (<code>Get-SmbClientConfiguration</code>) plutôt que de supposer.</li>
+        <li><strong>Enregistrer l'identifiant via le Gestionnaire d'identifiants Windows</strong>, en saisie interactive, jamais dans une commande ou un script qui le laisserait en clair.</li>
+        <li><strong>Recréer le mappage du lecteur réseau</strong> sans mot de passe inclus dans la commande, en s'appuyant sur l'identifiant déjà stocké.</li>
+        <li><strong>Sur un parc de plusieurs postes</strong>, envisager une GPP côté serveur si le contexte est un domaine, pour éviter de répéter la manip poste par poste.</li>
+      </ul>
+
+      <p>Le PC n'avait rien de cassé. Il appliquait juste une nouvelle règle de sécurité, plus stricte, que personne n'avait vue venir. Une fois que tu sais où regarder, ce genre de ticket qui paraissait mystérieux devient un réflexe de deux minutes : vérifier la version, confirmer la signature SMB, enregistrer l'identifiant proprement. Tu fais désormais partie de ceux qui savent reconnaître ce symptôme du premier coup, et qui ne se contentent pas d'un bricolage qui marche aujourd'hui et pose problème demain.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/windows/whats-new/whats-new-windows-11-version-24h2" target="_blank" rel="noopener noreferrer">Microsoft Learn — Nouveautés de Windows 11 version 24H2 pour les professionnels IT</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing" target="_blank" rel="noopener noreferrer">Microsoft Learn — Contrôler le comportement de la signature SMB</a></li>
+      </ul>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-text"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// à emporter</div>
+          <strong>Checklist mot de passe réseau — prête à l'emploi</strong>
+          <p>Toutes les étapes dans l'ordre, à suivre pas à pas sur le poste. Gratuit, à toi.</p>
+          <a href="script-checklist-reseau-24h2.html" class="btn btn-dl">Voir la checklist <i class="ph-bold ph-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist mot de passe réseau (SMB 24H2) — finistweb.fr</title>
+<meta name="description" content="La checklist complète pour résoudre une demande de mot de passe réseau inattendue sous Windows 11 24H2. Étape par étape, sans mot de passe en clair.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link active">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="scripts.html">~/scripts</a> / <span>checklist-reseau-24h2</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">réseau</span>
+      <h1 class="article-title">Checklist mot de passe réseau — SMB 24H2</h1>
+      <p class="article-lead">Toutes les étapes dans l'ordre pour régler une demande de mot de passe réseau inattendue sous Windows 11 24H2. À suivre pas à pas, sans rien oublier, sans mot de passe qui traîne en clair.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>checklist PDF</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Si tu arrives ici depuis l'article, tu sais déjà ce qui se passe : Windows 11 24H2 a durci les règles de signature SMB, et un poste qui marchait sans problème redemande maintenant un mot de passe à chaque démarrage. Cette checklist rassemble les étapes dans l'ordre, prêtes à suivre directement sur le poste. Tu la télécharges une fois, tu l'as pour tous les tickets de ce type.</p>
+
+      <h2>Ce que contient la checklist</h2>
+
+      <ol class="steps">
+        <li><strong>Vérifier la version Windows</strong> — confirmer qu'on est bien sur 24H2 avant de chercher ailleurs.</li>
+        <li><strong>Diagnostiquer avec PowerShell</strong> — la commande <code>Get-SmbClientConfiguration</code> pour voir si <code>RequireSecuritySignature</code> est activé.</li>
+        <li><strong>Vérifier la compatibilité côté serveur</strong> — NAS ou serveur de fichiers : est-ce qu'il supporte la signature SMB ?</li>
+        <li><strong>Enregistrer l'identifiant proprement</strong> — via le Gestionnaire d'identifiants Windows, en saisie interactive, sans mot de passe en clair dans aucune commande.</li>
+        <li><strong>Recréer le lecteur réseau persistent</strong> — mappage sans mot de passe dans la commande, en s'appuyant sur le credential déjà stocké.</li>
+        <li><strong>Vérifier au redémarrage</strong> — confirmer que le lecteur se monte automatiquement sans popup.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <div class="callout-label">// à garder à portée</div>
+        <p>Ce type de ticket revient souvent après une mise à jour majeure de Windows. Garder la checklist dans ton dossier "outils terrain" te fait économiser les dix minutes de diagnostic à tâtons à chaque fois.</p>
+      </div>
+
+      <p>La checklist est disponible sur Ko-fi au format PDF, imprimable ou à garder sur ton téléphone. Gratuit, à toi.</p>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-text"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// l'outil à emporter</div>
+          <strong>Checklist mot de passe réseau (SMB 24H2) — PDF imprimable</strong>
+          <p>6 étapes dans l'ordre, avec les commandes exactes. À garder à portée ou à partager à un collègue en galère.</p>
+          <a href="https://ko-fi.com/s/74a65c79a3" class="btn btn-dl" target="_blank" rel="noopener noreferrer">Télécharger — gratuit</a>
+        </div>
+      </div>
+
+      <p>Si tu veux comprendre pourquoi chaque étape est dans cet ordre et ce qui se passe techniquement derrière, l'article détaillé est <a href="article-mot-de-passe-reseau-24h2.html">par ici</a>.</p>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
