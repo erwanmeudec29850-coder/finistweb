@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon PC redémarre tout seul : pourquoi Windows efface la preuve avant que tu la lises · finistweb.fr</title>
+<meta name="description" content="Un PC qui reboote sans prévenir fait croire à un virus ou à une machine bonne à jeter. En réalité, Windows planque la preuve par défaut. Voici comment la retrouver dans les journaux système, lire le bon code, et arrêter de deviner.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>redemarrage-spontane-kernel-power</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système & windows</span>
+      <h1 class="article-title">Mon PC redémarre tout seul : pourquoi Windows efface la preuve avant que tu la lises</h1>
+      <p class="article-lead">Un ordinateur qui reboote en pleine journée, sans prévenir, sans message, fait peur. La première idée qui vient, c'est le virus ou la machine fatiguée. En réalité, Windows a un réflexe qui joue contre toi : par défaut, il range la preuve avant que tu aies pu la voir. Direction les journaux, pas la corbeille à idées.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>7 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un PC qui redémarre tout seul en pleine utilisation, c'est l'un des symptômes qui génère le plus d'angoisse côté utilisateur. Pas d'écran bleu, pas de message, pas d'avertissement. Juste un écran noir, un logo Windows, et la machine qui repart comme si rien ne s'était passé. La plupart des gens en concluent qu'il y a un virus, ou que l'ordinateur arrive en fin de vie. Il y a une troisième option, beaucoup plus fréquente, que presque personne ne va vérifier avant de tirer une conclusion. On y revient à la fin.</p>
+
+      <h2>Pourquoi tu ne vois jamais l'erreur qui a causé le reboot</h2>
+      <p>Voici ce qui se passe vraiment derrière l'écran noir : Windows a un paramètre activé par défaut qui s'appelle <em>redémarrage automatique en cas de défaillance système</em>. Concrètement, dès qu'une erreur grave force l'arrêt du système, Windows ne te laisse pas le temps de lire quoi que ce soit. Il redémarre tout de suite. L'écran bleu, s'il y en a eu un, a duré une fraction de seconde, invisible à l'œil.</p>
+      <p>Ce comportement n'est pas un bug. C'est une décision de conception, pensée pour les serveurs qui doivent rester disponibles même en cas de souci. Le problème, c'est que ce même réglage s'applique par défaut sur un PC de bureau, où la priorité n'est pas la disponibilité à tout prix, mais la possibilité de comprendre ce qui s'est passé.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est un tableau blanc qu'on efface automatiquement trois secondes après y avoir écrit la cause de la panne. Le message a existé, brièvement, mais personne n'a eu le temps de le lire avant que la salle ne reparte comme si de rien n'était.</p>
+      </div>
+
+      <p>La bonne nouvelle, c'est que ce réflexe se désactive en deux clics : Paramètres système avancés → onglet Avancé → section Démarrage et récupération → Paramètres → décocher <em>Redémarrer automatiquement</em>. La prochaine fois que le système plante, l'écran bleu reste affiché au lieu de disparaître, et tu as enfin le temps de noter le code dessus.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Un reboot spontané sans message n'efface pas la cause. Il l'efface seulement de ton écran. Windows, lui, l'a déjà notée ailleurs.</p>
+      </div>
+
+      <h2>La trace que Windows laisse quand même</h2>
+      <p>Ton cerveau te dit : si je n'ai rien vu, il n'y a rien à voir. C'est faux. Avant de redémarrer, Windows écrit un événement précis dans le journal Système, identifié par un code qui ne change jamais : EventID 41, source Kernel-Power. Son libellé tient en une phrase, et elle est sans détour : le système a redémarré sans s'être arrêté proprement.</p>
+      <p>Cet événement n'est pas une supposition de Windows. C'est une constatation factuelle qu'il fait lui-même au démarrage suivant, en vérifiant si la dernière extinction s'est faite dans les règles. S'il détecte que non, il pose l'alerte EventID 41 dans l'Observateur d'événements, accessible en tapant <code>eventvwr</code> dans la recherche Windows, puis Journaux Windows → Système.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est le constat qu'un médecin légiste fait sur un corps : pas une accusation contre un suspect précis, juste l'observation neutre que la mort n'a pas été naturelle. EventID 41 dit qu'il y a eu un arrêt anormal. Il ne dit pas encore qui ou quoi en est responsable. Ça vient juste après.</p>
+      </div>
+
+      <h2>Le vrai indice se cache dans un nombre qu'il faut traduire</h2>
+      <p>Si tu ouvres l'événement EventID 41, tu trouveras un champ nommé <code>BugcheckCode</code>. Et c'est là que la plupart des gens abandonnent, parce que ce nombre ne ressemble à rien de connu. Logique : Windows l'écrit en décimal, alors que toute la documentation sur les erreurs Windows utilise l'hexadécimal. Un nombre comme 209 ne dit rien à personne. Convertis-le en hexadécimal avec la calculatrice Windows en mode Programmeur, et tu obtiens 0xD1. Ce code-là, en revanche, a un nom : <code>DRIVER_IRQL_NOT_LESS_OR_EQUAL</code>, l'un des stop codes les plus documentés de Windows, généralement causé par un pilote qui accède à une zone mémoire qu'il n'a pas le droit de toucher.</p>
+      <p>Le retournement à retenir : ce n'est pas Windows qui te cache l'information en utilisant un format bizarre. C'est juste deux conventions différentes qui ne se parlent pas, et il suffit d'un outil de conversion pour les faire correspondre.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Ouvre la Calculatrice Windows, bascule en mode Programmeur, sélectionne Déc, tape le BugcheckCode tel qu'il apparaît dans l'événement, puis clique sur Hex. Le résultat est le stop code que tu peux ensuite chercher dans la documentation Microsoft des bug check codes.</p>
+      </div>
+
+      <h2>Le cas piège : quand le code est à zéro</h2>
+      <p>Il y a un scénario qui trompe presque tout le monde : l'EventID 41 est bien présent, mais le BugcheckCode affiche 0, sans aucune autre information utile. Le réflexe naturel, c'est de penser que ça veut dire "rien à signaler". C'est l'inverse : un code à zéro veut dire que Windows n'a même pas eu le temps d'écrire l'erreur avant de couper. Soit la machine s'est arrêtée trop brutalement pour que Windows puisse réagir (coupure de courant, bouton d'alimentation maintenu), soit elle était complètement figée et incapable d'écrire quoi que ce soit avant l'extinction forcée.</p>
+      <p>Pour trancher entre ces deux pistes, regarde un second champ du même événement : <code>PowerButtonTimestamp</code>. S'il affiche une valeur différente de zéro, ça confirme que quelqu'un a maintenu le bouton d'alimentation au moins quatre secondes. S'il reste à zéro alors que le code l'est aussi, la piste se déplace vers l'alimentation électrique ou le matériel : carte mère, RAM, bloc d'alimentation.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Un BugcheckCode à zéro répété plusieurs fois sur la même machine, sans PowerButtonTimestamp, n'est pas un cas "sans piste". C'est un signal qui pointe vers le matériel ou l'alimentation, pas vers Windows. Ne perds pas de temps à réinstaller le système sur la base de ce seul symptôme.</p>
+      </div>
+
+      <h2>Pourquoi ce détail compte plus qu'il n'y paraît</h2>
+      <p>Derrière chaque reboot spontané, il y a un contexte qu'on oublie facilement quand on est concentré sur le journal système. Pour quelqu'un dont l'ordinateur est l'outil de travail direct, un redémarrage en pleine journée n'est jamais juste un désagrément technique. Pour un chauffeur qui prend ses courses sur une tablette ou un PC embarqué, chaque coupure, c'est une réservation qui tombe à l'eau et qui part chez le concurrent pendant que la machine reboote. Le diagnostic n'est pas qu'une question de curiosité technique : c'est ce qui évite de remplacer une machine qui fonctionne très bien, ou au contraire de laisser traîner un vrai problème de courant qui finira par abîmer autre chose.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Désactive le redémarrage automatique</strong> (Paramètres système avancés → Démarrage et récupération) pour que le prochain crash reste affiché assez longtemps pour être lu.</li>
+        <li><strong>Ouvre l'Observateur d'événements</strong> (<code>eventvwr</code>) et filtre sur Journaux Windows → Système, à la recherche d'EventID 41, source Kernel-Power.</li>
+        <li><strong>Relève le BugcheckCode</strong> de l'événement et convertis-le du décimal vers l'hexadécimal avec la Calculatrice en mode Programmeur.</li>
+        <li><strong>Si le code est à zéro</strong>, regarde le champ PowerButtonTimestamp avant de conclure : ça distingue un arrêt manuel forcé d'un vrai problème de courant ou de matériel.</li>
+        <li><strong>Cherche le stop code obtenu</strong> dans la référence officielle des bug check codes Microsoft pour savoir s'il pointe vers un pilote, une erreur mémoire, ou autre chose.</li>
+        <li><strong>Ne réinstalle jamais Windows en premier réflexe</strong> sur un simple reboot spontané : tant que tu n'as pas lu l'EventID 41, tu agis à l'aveugle sur un symptôme qui a pourtant une trace écrite.</li>
+      </ul>
+
+      <p>La prochaine fois qu'un PC redémarre sans rien dire, le réflexe ne sera plus de soupçonner un virus ou de proposer une machine neuve. Tu sauras que Windows a déjà tout noté, à un endroit précis, dans un format qu'il suffit de traduire. Ce n'est pas de la magie de diagnostic. C'est juste savoir où Windows planque ses preuves avant de les ranger.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart" target="_blank" rel="noopener noreferrer">Microsoft Learn · Event ID 41 : le système a redémarré sans s'être arrêté proprement</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/archive/technet-wiki/14246.kernel-power-event-id-41" target="_blank" rel="noopener noreferrer">Microsoft Learn · Kernel Power Event ID 41, scénarios détaillés</a></li>
+        <li><a href="https://docs.microsoft.com/fr-fr/windows-hardware/drivers/debugger/bug-check-code-reference2" target="_blank" rel="noopener noreferrer">Microsoft Docs · Référence des bug check codes</a></li>
+        <li><a href="https://support.microsoft.com/fr-fr/windows/demarrer-votre-pc-en-mode-sans-echec-dans-windows-92c27cff-db89-8644-1ce4-b3e5e56fe234" target="_blank" rel="noopener noreferrer">Microsoft · Désactiver le redémarrage automatique depuis Démarrage et récupération</a></li>
+      </ul>
+
+<div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne, gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr · égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

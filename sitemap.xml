@@ -16,6 +16,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://finistweb.fr/article-redemarrage-spontane-kernel-power.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://finistweb.fr/article-ip-169-254-apipa-dhcp.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
