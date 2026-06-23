@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webcam non détectée sous Windows : pourquoi tu commences toujours par le mauvais bout — finistweb.fr</title>
+<meta name="description" content="Ta webcam a disparu ou Teams ne la voit plus. Avant de réinstaller un pilote, comprends ce que Windows fait vraiment derrière, et pourquoi le réflexe naturel rate la cible neuf fois sur dix.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>webcam-non-detectee</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">diagnostic matériel</span>
+      <h1 class="article-title">Webcam non détectée sous Windows : pourquoi tu commences toujours par le mauvais bout</h1>
+      <p class="article-lead">Quelqu'un te dit que sa caméra a disparu. Ton premier réflexe va presque sûrement te faire perdre dix minutes pour rien. Il y a un ordre logique à respecter, et il n'est pas celui qu'on croit.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Une caméra qui ne marche plus, c'est le genre de panne où tout le monde se sent obligé de remettre un pilote. C'est presque un réflexe pavlovien : pas d'image, donc problème de pilote, donc on va sur le site du fabricant, on télécharge, on installe, on croise les doigts. Sauf que dans la majorité des cas, ce réflexe attaque le mauvais suspect. Et il y a une raison précise à ça, qu'on va déplier ici — parce qu'une fois que tu l'as comprise, tu ne perds plus jamais dix minutes sur cette panne.</p>
+
+      <h2>Pourquoi il faut d'abord savoir QUEL problème tu as, pas COMMENT le résoudre</h2>
+      <p>Avant même de toucher à un pilote, il y a une question plus importante à se poser, et presque personne ne se la pose : est-ce que la webcam existe encore aux yeux de Windows, ou bien existe-t-elle mais quelque chose lui bloque la porte ? Ce sont deux pannes complètement différentes, avec des causes différentes et des solutions différentes. Confondre les deux, c'est foncer droit dans le mur.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Pense à un employé dans un immeuble de bureaux. Soit son badge n'a jamais été créé, et le portique à l'entrée ne le reconnaît tout simplement pas — il n'existe pas dans le système. Soit son badge existe très bien, il passe le portique sans souci, mais l'accès à une salle précise lui est refusé. Dans le premier cas, le problème est à la racine. Dans le second, l'employé est bien là, c'est juste qu'on lui a fermé une porte.</p>
+      </div>
+
+      <p>Sous Windows, le premier cas se vérifie dans le Gestionnaire de périphériques (<code>devmgmt.msc</code>). Si la webcam n'y apparaît nulle part, ou qu'elle a une icône jaune d'avertissement, c'est un problème matériel ou pilote. Si elle y apparaît normalement, sans aucune icône d'erreur, mais que Teams ou Zoom te disent "aucune caméra détectée", alors le badge existe : c'est un problème de droits.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Le Gestionnaire de périphériques, c'est ton tri d'entrée. Il te dit en cinq secondes dans quelle moitié du problème tu es, avant même de commencer à chercher.</p>
+      </div>
+
+      <h2>Le coupable que personne ne soupçonne : le toggle qu'on oublie toujours</h2>
+      <p>Ton cerveau te dit : "j'ai vérifié les paramètres de confidentialité, j'ai autorisé Teams dans la liste, donc c'est bon." Sauf que c'est faux dans énormément de cas, et c'est précisément ce qui rend cette panne si frustrante quand on ne connaît pas le piège.</p>
+
+      <p>Windows a un verrou en plusieurs étages dans Paramètres > Confidentialité et sécurité > Caméra. Il y a d'abord un interrupteur général qui autorise ou non l'accès caméra pour l'appareil entier. Ensuite, une liste d'applications individuelles (typiquement les apps du Microsoft Store) que tu peux autoriser une par une. Et tout en bas de la page, séparé du reste, un toggle qui dit "Autoriser les applications de bureau à accéder à la caméra". Teams et Zoom, dans leurs versions installées classiquement, sont des applications de bureau. Elles ne suivent pas la liste individuelle du dessus. Elles dépendent uniquement de ce dernier toggle, qu'on ne pense presque jamais à vérifier parce qu'il est tout en bas et qu'il ne porte aucun nom familier.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Cocher Teams dans la liste d'applications individuelles ne sert à rien si Teams est installé en version bureau. C'est un peu comme donner les clés d'un appartement à quelqu'un alors que le digicode de l'immeuble est encore désactivé : la clé en elle-même ne sert à rien si on ne passe jamais la porte d'entrée.</p>
+      </div>
+
+      <p>C'est pour ça que tellement de gens jurent avoir "tout vérifié" sans que rien ne fonctionne : ils ont vérifié le bon menu, mais pas la bonne ligne dans ce menu.</p>
+
+      <h2>Pourquoi tu n'as (presque) jamais besoin du pilote du fabricant</h2>
+      <p>Deuxième réflexe naturel et deuxième fausse piste : se dire qu'il faut absolument le pilote Logitech, HP ou Dell pour que la webcam fonctionne. Cette intuition vient d'une époque où c'était vrai. Aujourd'hui, elle te fait perdre du temps et peut même créer un problème qui n'existait pas avant.</p>
+
+      <p>Depuis Windows 10, Microsoft embarque nativement un pilote universel pour les webcams USB, basé sur une norme appelée UVC (USB Video Class). La quasi-totalité des webcams modernes — externes ou intégrées à un laptop — sont compatibles UVC. Windows les reconnaît et les fait fonctionner directement, sans qu'aucun fichier ne soit à télécharger sur le site du fabricant.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est exactement le même principe qu'une clé USB. Tu ne cherches plus de CD d'installation pour qu'une clé USB fonctionne, elle marche dès qu'elle est branchée. Une webcam UVC, c'est pareil : du "plug and play" pur. Le pilote constructeur, dans ce contexte, ressemble plus à une rustine ajoutée sur un mécanisme qui tournait déjà parfaitement seul — et parfois cette rustine entre en conflit avec le mécanisme d'origine.</p>
+      </div>
+
+      <p>Installer le pilote du fabricant par-dessus le pilote UVC peut créer des conflits, des doublons de périphérique, ou des comportements instables. La règle terrain est simple : commencer par laisser Windows gérer ça lui-même, et ne chercher un pilote constructeur qu'en dernier recours, si vraiment rien d'autre n'a marché.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Si une webcam pose un Code 43 ou un Code 10 dans le Gestionnaire de périphériques, la première chose à faire n'est pas de chercher un pilote sur internet. C'est de désinstaller le périphérique (sans cocher "supprimer le pilote") puis de redémarrer. Windows réinstalle le pilote UVC automatiquement, et ça résout une bonne partie des cas.</p>
+      </div>
+
+      <h2>Le cas particulier du laptop : il y a un interrupteur que tu ne vois pas</h2>
+      <p>Sur un ordinateur portable, il existe deux façons supplémentaires de désactiver la webcam intégrée, et elles n'ont rien à voir avec Windows. La première, c'est une combinaison de touches Fn (par exemple Fn+F6 ou Fn+F sur certains modèles) qui coupe physiquement le flux caméra au niveau matériel. La seconde, c'est une option dans le BIOS/UEFI, souvent nommée "Onboard Camera" ou "Camera", qui peut être désactivée sans qu'on s'en rende compte.</p>
+
+      <p>Dans ces deux cas, Windows ne ment pas : la webcam est purement et simplement absente du Gestionnaire de périphériques, comme si elle n'avait jamais existé. Aucun pilote ne peut réparer ce qui est coupé avant même que l'OS ne démarre.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est l'interrupteur caché derrière un tableau électrique. Tout le câblage est en parfait état, la prise est branchée, l'appareil fonctionne — mais si quelqu'un a coupé le disjoncteur en amont, rien ne s'allumera, peu importe ce que tu fais en aval.</p>
+      </div>
+
+      <p>Ton cerveau te dit que si c'est désactivé dans le BIOS, c'est forcément intentionnel — quelqu'un l'a fait exprès, pour une raison de sécurité ou de confidentialité. En réalité, c'est très souvent une réinitialisation BIOS involontaire, ou une touche Fn appuyée par accident, sans que personne ne s'en aperçoive. C'est presque toujours un hasard, jamais un complot.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Sur un laptop, si la webcam est totalement absente du Gestionnaire de périphériques, pense au BIOS et à la touche Fn avant même d'envisager un problème de pilote.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Tu ouvres le Gestionnaire de périphériques en premier</strong>, toujours, avant toute autre action. C'est lui qui te dit dans quel camp tu es : absente (matériel/pilote) ou présente (droits).</li>
+        <li><strong>Sur un laptop dont la webcam est totalement absente</strong>, tu regardes les touches Fn et tu vérifies l'option caméra dans le BIOS avant de chercher plus loin.</li>
+        <li><strong>Si la webcam a une icône d'erreur</strong>, tu la désinstalles sans cocher "supprimer le pilote", tu redémarres, et tu laisses Windows réinstaller le pilote UVC natif.</li>
+        <li><strong>Si la webcam est présente mais invisible dans une app</strong>, tu vas directement tout en bas de Paramètres > Confidentialité et sécurité > Caméra et tu vérifies le toggle "Applications de bureau", pas seulement la liste individuelle au-dessus.</li>
+        <li><strong>Tu ne télécharges un pilote constructeur qu'en dernier recours</strong>, jamais en premier réflexe.</li>
+      </ul>
+
+      <p>Et voilà la chose qui change tout une fois qu'elle est comprise : cette panne n'a jamais été compliquée. Elle avait juste un ordre logique précis, et le réflexe naturel inverse cet ordre à chaque fois — on va direct vers le pilote, alors que le pilote est presque toujours innocent. Maintenant que tu sais où regarder en premier, tu fais partie de ceux qui ne perdent plus dix minutes sur un toggle caché en bas d'une page de paramètres.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://support.microsoft.com/en-us/windows/camera-doesn-t-work-in-windows-32adb016-b29c-a928-0073-53d31da0dad5" target="_blank" rel="noopener noreferrer">Microsoft Support — La caméra ne fonctionne pas dans Windows</a></li>
+        <li><a href="https://support.microsoft.com/en-us/windows/manage-app-permissions-for-a-camera-in-windows-87ebc757-1f87-7bbf-84b5-0686afb6ca6b" target="_blank" rel="noopener noreferrer">Microsoft Support — Gérer les autorisations d'application pour une caméra</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/usb-video-class-driver-overview" target="_blank" rel="noopener noreferrer">Microsoft Learn — Présentation du pilote USB Video Class (UVC)</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

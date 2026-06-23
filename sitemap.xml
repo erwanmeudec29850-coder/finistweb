@@ -16,6 +16,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://finistweb.fr/article-webcam-non-detectee.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://finistweb.fr/article-batterie-laptop-ne-charge-plus.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
