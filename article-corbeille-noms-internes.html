@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pourquoi Windows te demande de supprimer un fichier qui n'existe pas — finistweb.fr</title>
+<meta name="description" content="Après les mises à jour de juin 2026, la Corbeille de Windows affiche des noms de fichiers absurdes au moment de la suppression définitive. Explication du vrai mécanisme caché derrière, et pourquoi paniquer ne sert à rien.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>corbeille-noms-internes</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système & windows</span>
+      <h1 class="article-title">Pourquoi Windows te demande de supprimer un fichier qui n'existe pas</h1>
+      <p class="article-lead">Depuis juin 2026, vider la Corbeille sur Windows affiche un nom de fichier que tu n'as jamais vu de ta vie. Pas de panique : il y a une explication, et elle révèle un mécanisme que ton PC te cache depuis toujours.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Tu supprimes un fichier. Windows t'affiche une fenêtre de confirmation. Et là, au lieu de lire "Facture_mars.pdf", tu vois "$RF8X2A.pdf". Ton cerveau fait immédiatement le calcul : soit Windows est devenu fou, soit quelqu'un d'autre a touché à ton PC. Il y a une troisième option, beaucoup moins inquiétante, et elle t'apprend un truc que la plupart des utilisateurs ignorent toute leur vie : ta Corbeille ne s'appelle jamais tes fichiers par leur vrai nom. Elle ne l'a jamais fait. Elle vient juste, par accident, de te le montrer.</p>
+
+      <h2>Pourquoi ta Corbeille te ment depuis le premier jour</h2>
+      <p>La plupart des gens imaginent la Corbeille comme un dossier classique où les fichiers gardent leur identité, juste planqués en attendant d'être vidés définitivement. C'est faux, et ça l'a toujours été. Quand tu supprimes "Facture_mars.pdf", Windows ne le déplace pas tel quel dans la Corbeille. Il le renomme en interne, sous une forme du type <code>$RXXXXX.ext</code>, où XXXXX est un identifiant généré par le système. Le vrai nom du fichier, lui, est planqué dans un second fichier caché, juste à côté, que tu ne vois jamais.</p>
+
+      <p>Pourquoi ce détour ? Parce que deux fichiers différents peuvent très bien s'appeler pareil. Si tu supprimes un "rapport.docx" depuis ton Bureau, puis un autre "rapport.docx" depuis tes Documents, Windows a besoin de les distinguer sans les confondre, sans les écraser l'un l'autre, et sans te demander de les renommer toi-même. La solution : leur donner un identifiant technique unique en coulisses, et te montrer le nom d'origine en façade, comme une étiquette plaquée sur la boîte.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est exactement le principe du vestiaire d'une salle de sport. Ton manteau ne porte pas ton nom écrit dessus : il porte un numéro de ticket. Le préposé sait que le ticket 247 correspond à "le manteau bleu d'Erwan" grâce à un registre qu'il garde pour lui. Toi, tu ne vois jamais le numéro 247, tu vois juste ton manteau revenir avec ton nom. La Corbeille fonctionne pareil : le numéro de ticket, c'est le $RXXXXX. Le registre du vestiaire, c'est un petit fichier caché que tu ne croises jamais. Le bug de juin 2026, c'est le préposé qui, un jour, te tend le ticket au lieu de te dire "votre manteau bleu".</p>
+      </div>
+
+      <p>Ton cerveau te dit que voir un nom bizarre signifie qu'un autre fichier est concerné. En réalité, c'est l'inverse : le système fonctionne normalement, c'est juste l'étiquette de façade qui a sauté, et le ticket de vestiaire qui s'affiche à la place. Le fichier réel n'a absolument pas changé d'identité.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Le $RXXXXX que tu vois n'est pas un autre fichier : c'est le nom technique que ton fichier porte déjà, en silence, depuis qu'il existe une Corbeille sur Windows.</p>
+      </div>
+
+      <h2>Ce qui s'est cassé en juin 2026, et ce qui n'a pas bougé</h2>
+      <p>La mise à jour du 9 juin 2026 (KB5094126 côté Windows 11) a introduit un raté précis : au moment d'effacer un fichier pour de bon, et seulement à ce moment-là, le système confond son étiquette de façade avec son numéro de ticket. Microsoft a reconnu officiellement le souci et l'a inscrit à son inventaire public des anomalies en cours. La liste des machines concernées est large au point d'en devenir presque comique : ça va des dernières moutures de Windows 11 jusqu'à des éditions de Windows Server qu'on croisait déjà avant la précédente décennie.</p>
+
+      <p>Le détail qui change tout pour ta tranquillité d'esprit : ce raté reste enfermé dans une seule boîte de dialogue. Le préposé du vestiaire, lui, n'a rien oublié — ouvre la Corbeille et chaque manteau garde son étiquette habituelle. Annule la suppression, et ton fichier ressort sous son vrai nom, comme s'il n'avait jamais été question d'un ticket. Un seul écran s'est mis à mentir ; tout le reste de la mécanique continue de tourner sans accroc.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Le vrai risque n'est pas technique, il est humain : un utilisateur qui voit un nom incohérent peut hésiter, annuler, ou pire, valider une suppression définitive sans vraiment vérifier ce qu'il efface, parce que le nom affiché ne veut rien dire pour lui. C'est ce flou qui mérite d'être expliqué, plus que le bug lui-même.</p>
+      </div>
+
+      <p>Côté correctif, Microsoft prépare un patch qui sera intégré à une prochaine mise à jour cumulative, sans date précise communiquée à ce jour. En attendant, les entreprises peuvent obtenir une mesure de contournement en passant par le support professionnel Microsoft. Les particuliers, eux, n'ont pas cette option et devront simplement attendre le correctif. Tant que ce n'est pas réglé : si le nom affiché te paraît bizarre, va vérifier dans la Corbeille elle-même avant de valider. Trente secondes de vérification valent mieux qu'un fichier supprimé par erreur de confiance.</p>
+
+      <h2>Le second bug du mois, et pourquoi il raconte la même histoire</h2>
+      <p>Quelques jours avant celui de la Corbeille, Microsoft avait déjà reconnu un autre problème lié aux mêmes mises à jour de juin 2026 : certaines applications tierces ne parvenaient plus à lancer Word, Excel, PowerPoint ou Access, ni à ouvrir de documents, sans le moindre message d'erreur pour prévenir l'utilisateur. Les logiciels concernés passent par un mécanisme appelé l'automatisation OLE, une technologie ancienne qui permet à un logiciel A de piloter un logiciel B à distance, sans passer par un humain qui clique. Parmi les outils touchés, on retrouve par exemple Zotero, un gestionnaire de bibliographie très utilisé par les étudiants et chercheurs, ou des logiciels métier comme CCH Engagement.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>L'automatisation OLE, c'est l'interphone d'un immeuble. Un visiteur (le logiciel tiers) appuie sur le bouton pour que la porte (Office) s'ouvre automatiquement, sans que personne ne descende lui ouvrir à la main. Avec la mise à jour de juin, l'interphone reste muet : le visiteur appuie, rien ne sonne, rien ne s'ouvre, et personne ne reçoit de message lui disant que la sonnette est cassée. Il reste juste planté devant une porte fermée, sans comprendre pourquoi.</p>
+      </div>
+
+      <p>Tu pourrais croire que ces deux bugs n'ont rien en commun, parce qu'ils touchent des fonctions complètement différentes. En réalité, ils racontent la même chose sur la façon dont Windows fonctionne en coulisses : la quasi-totalité des actions que tu fais d'un clic repose sur des mécanismes internes invisibles, des intermédiaires, des numéros de ticket et des interphones que tu ne vois jamais, jusqu'au jour où ils tombent en panne et te montrent, sans le vouloir, comment la machine pense vraiment.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Un patch de sécurité protège une porte et fait grincer une autre. C'est la règle, pas l'exception : aucune mise à jour Windows n'est neutre sur tout le reste du système.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Ne désinstalle pas la mise à jour par réflexe.</strong> Le patch de juin corrige plus de 200 failles de sécurité, dont plusieurs critiques. Revenir en arrière pour un bug d'affichage serait un très mauvais calcul.</li>
+        <li><strong>Vérifie toujours dans la Corbeille avant une suppression définitive</strong> si le nom affiché dans la confirmation te semble incohérent. Le vrai nom y est toujours visible.</li>
+        <li><strong>Si un logiciel métier n'ouvre plus Word, Excel ou un autre outil Office sans message d'erreur,</strong> pense à l'automatisation OLE avant d'accuser le logiciel lui-même : c'est une piste connue depuis le 9 juin 2026.</li>
+        <li><strong>Documente la chronologie des mises à jour</strong> sur les postes concernés. Si le symptôme est apparu juste après une mise à jour Windows, le lien de cause à effet est souvent là, même quand rien ne le dit explicitement à l'écran.</li>
+        <li><strong>Pour un parc d'entreprise touché,</strong> le contournement passe par le support professionnel Microsoft. Pour un particulier, il n'y a rien d'autre à faire qu'attendre le correctif cumulatif à venir.</li>
+      </ul>
+
+      <p>Au fond, ce mois de juin 2026 t'a offert, sans le vouloir, une leçon gratuite : ce qui paraît évident à l'écran (un nom de fichier, un clic qui ouvre un document) repose sur une tuyauterie qu'on ne voit jamais, jusqu'au jour où elle se met à fuir. Tu fais maintenant partie de ceux qui regardent un message d'erreur bizarre avec un temps d'avance sur la panique : tu sais qu'il y a presque toujours un mécanisme discret derrière, et que comprendre ce mécanisme vaut mieux que cliquer "Continuer" en croisant les doigts.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://support.microsoft.com/fr-fr/topic/9-juin-2026-kb5094126-builds-du-syst%C3%A8me-d-exploitation-26200-8655-et-26100-8655-1a9bcba6-5f53-4075-8156-fe11ac631737" target="_blank" rel="noopener noreferrer">Support Microsoft — KB5094126, notes de mise à jour officielles</a></li>
+        <li><a href="https://learn.microsoft.com/windows/release-health/" target="_blank" rel="noopener noreferrer">Microsoft Learn — Windows Release Health, tableau de bord des problèmes connus</a></li>
+        <li><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-recycle-bin-bug-on-all-supported-windows-releases/" target="_blank" rel="noopener noreferrer">BleepingComputer — Microsoft confirme le bug de la Corbeille sur toutes les versions supportées</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
