@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compte Microsoft 365 piraté : l'ordre qui sauve tout — finistweb.fr</title>
+<meta name="description" content="Un compte Microsoft 365 compromis se répare en suivant un ordre précis. Inverser deux étapes, et tu donnes du temps à l'attaquant au lieu de lui en retirer.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>compte-m365-pirate</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système & windows</span>
+      <h1 class="article-title">Compte Microsoft 365 piraté : l'ordre qui sauve tout (et celui qui aggrave tout)</h1>
+      <p class="article-lead">Un compte compromis, ça se répare en moins d'une heure. Mais il y a une étape que presque tout le monde fait en premier, alors qu'elle devrait être la troisième. On va voir laquelle, et pourquoi ça change tout.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un client t'appelle, un peu paniqué : "On m'a piraté ma boîte mail, je crois." Tu as quarante-cinq minutes devant toi avant que ça devienne vraiment grave. Et il y a un geste que ton cerveau va vouloir faire en premier, instinctivement, parce qu'il paraît évident. Ce geste-là est une erreur. On va voir pourquoi, et surtout ce qu'il faut faire à la place — dans le bon ordre, parce que l'ordre, ici, n'est pas un détail de présentation.</p>
+
+      <h2>Pourquoi un mot de passe volé ne suffit jamais à tout expliquer</h2>
+      <p>Quand un compte Microsoft 365 se retrouve entre de mauvaises mains, la première question qu'on se pose, c'est "comment il est entré ?" Et c'est la bonne question, parce que si tu ne réponds pas, tu répares un symptôme sans toucher à la cause. Le compte peut se faire reprendre le lendemain par la même porte.</p>
+      <p>Concrètement, il y a trois grandes façons d'entrer : le mot de passe a fuité ou a été volé par un mail piégé, la double authentification a été contournée, ou une application tierce a obtenu un accès permanent à la boîte sans que personne ne s'en inquiète vraiment le jour où elle a demandé la permission.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Tu changes la serrure de la porte d'entrée après un cambriolage. Bonne idée. Mais si tu ne vérifies pas si une fenêtre est restée ouverte à l'arrière, le voleur n'a même pas besoin de la nouvelle clé pour revenir.</p>
+      </div>
+
+      <p>Le deuxième point qui surprend, c'est la double authentification. Beaucoup de gens — et beaucoup de techniciens débutants aussi — considèrent que MFA activé veut dire compte inviolable. C'est faux, et c'est important de le savoir avant d'investiguer, sinon tu écartes une piste qui est en fait la bonne.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>MFA est une barrière solide, pas un mur infranchissable. On peut la fatiguer (spammer de notifications jusqu'à ce que la victime accepte par lassitude), ou voler la session une fois qu'elle est ouverte, sans jamais avoir besoin du code.</p>
+      </div>
+
+      <h2>Les règles automatiques qu'on ne voit jamais passer</h2>
+      <p>Voici un réflexe d'attaquant que personne n'imagine spontanément : une fois dans la boîte, il ne se contente pas de lire les mails. Il crée des règles automatiques, invisibles, qui font le travail à sa place pendant qu'il n'est même plus connecté.</p>
+      <p>Une règle qui supprime tous les mails contenant le mot "facture". Une autre qui redirige en silence les messages d'une direction vers une adresse extérieure. L'utilisateur ne voit rien d'anormal dans sa boîte, et pourtant, une partie de sa correspondance part ailleurs, ou disparaît avant même d'être lue.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme si quelqu'un avait discrètement mis en place un suivi de courrier depuis ta boîte aux lettres, vers son adresse. Tu changes le code de la porte, et le facteur continue d'apporter ton courrier ailleurs, parce que personne n'a annulé le suivi.</p>
+      </div>
+
+      <p>Et voilà le retournement qui dérange : ces règles survivent au changement de mot de passe. Elles ne dépendent pas du mot de passe, elles dépendent de la configuration de la boîte. Tant que personne ne va les chercher et ne les supprime explicitement, elles continuent de tourner, sagement, en arrière-plan.</p>
+
+      <h2>L'accès qui ne demande même plus la permission</h2>
+      <p>Il y a une troisième forme de persistance, encore moins visible, et c'est probablement la plus sous-estimée de toutes : le consentement donné un jour à une application tierce.</p>
+      <p>Un jour, quelqu'un a cliqué "autoriser" sur une application qui demandait à lire ou écrire dans la messagerie — un client mail alternatif, un outil de migration, n'importe quoi. Cette autorisation reste active indéfiniment, jusqu'à ce qu'elle soit révoquée à la main. Si un attaquant a fait créer ou installer une application de ce type, il garde un accès qui ne dépend ni du mot de passe, ni même de la session de connexion classique.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Tu as donné un double de tes clés à quelqu'un, il y a longtemps, pour une bonne raison. Tu changes la serrure principale. Mais s'il a gardé ce double et que la nouvelle serrure accepte encore ce type de clé, rien n'a vraiment changé pour lui.</p>
+      </div>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Révoquer une session ne révoque pas automatiquement un consentement donné à une application. Ce sont deux mécanismes différents. Couper l'un sans couper l'autre laisse une porte grande ouverte.</p>
+      </div>
+
+      <h2>L'ordre des opérations, celui qu'on a tendance à inverser</h2>
+      <p>Maintenant qu'on sait par où l'attaquant peut être entré et comment il peut rester, reste la question qui fait toute la différence sur le terrain : par quoi commencer ?</p>
+      <p>Le réflexe naturel, presque tout le monde l'a : changer le mot de passe en premier. Ça paraît être le geste le plus "sécurisant" qui existe. Et c'est précisément l'erreur.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Changer le mot de passe en premier alerte l'attaquant, s'il est encore connecté, qu'il vient de perdre l'accès. Sa réaction logique : accélérer ce qu'il était en train de faire avant que la porte ne se ferme complètement.</p>
+      </div>
+
+      <p>L'ordre qui fonctionne, c'est l'inverse de l'intuition : on coupe l'accès avant de toucher au mot de passe. Concrètement, trois étapes, toujours dans le même sens.</p>
+
+      <ol>
+        <li><strong>Bloquer la connexion du compte.</strong> Avant tout le reste. Le compte ne peut plus se connecter, point. L'attaquant, s'il est encore actif, perd l'accès immédiatement sans qu'on ait besoin de "réveiller" sa vigilance avec un changement visible.</li>
+        <li><strong>Révoquer toutes les sessions actives.</strong> Si une session était déjà ouverte ailleurs (chez l'attaquant), elle est coupée tout de suite, même si elle ne demandait plus de mot de passe pour rester active.</li>
+        <li><strong>Réinitialiser le mot de passe.</strong> Seulement maintenant. À ce stade, le changement de mot de passe ne fait que verrouiller une porte qui était déjà fermée à clé une minute plus tôt.</li>
+      </ol>
+
+      <div class="callout callout-tip">
+        <div class="callout-label">// règle terrain</div>
+        <p>Bloquer, révoquer, réinitialiser. Toujours dans cet ordre, jamais dans l'autre. C'est la version courte à se répéter avant d'ouvrir n'importe quel portail d'administration en urgence.</p>
+      </div>
+
+      <p>Une fois ces trois gestes faits, le plus dur n'est pas terminé : il reste à vérifier les journaux de connexion pour repérer les pays et applications inhabituels, fouiller les règles de la boîte mail à la recherche de redirections ou de suppressions automatiques suspectes, et passer en revue les applications tierces qui ont un accès actif à la messagerie. C'est cette étape d'investigation qui distingue "j'ai changé le mot de passe" de "j'ai vraiment refermé toutes les portes".</p>
+
+      <h2>La tentation de clôturer trop vite</h2>
+      <p>Une fois les trois gestes faits et l'investigation terminée, vient une dernière tentation : considérer que c'est réglé. Tout a l'air propre, le client est content, on passe au dossier suivant.</p>
+      <p>C'est là qu'on referme la boucle posée au début de cet article. Le geste qui paraît le plus rassurant — clôturer le dossier rapidement — est justement celui qui laisse le plus de marge à un retour discret de l'attaquant.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Certains jetons d'accès aux applications tierces ont une durée de vie de plusieurs jours, parfois plusieurs semaines. Un attaquant méthodique peut aussi avoir compromis un deuxième compte du même environnement, ou laissé une règle qui n'a pas été repérée du premier coup. Considérer l'incident clos après vingt-quatre heures, simplement parce que "ça a l'air clean", est l'erreur la plus classique de ce type d'intervention.</p>
+      </div>
+
+      <p>La bonne pratique, c'est de garder un œil sur les connexions pendant deux bonnes semaines après l'incident, pas vingt-quatre heures. Ce n'est pas une norme gravée dans le marbre, mais c'est le plancher raisonnable que recommandent les retours d'expérience sur ce type d'incident.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Après une intoxication alimentaire, personne ne reprend ses habitudes le lendemain matin en se disant que tout va bien. On surveille quelques jours, par précaution, même quand les symptômes ont disparu.</p>
+      </div>
+
+      <p>Et puisqu'on parle d'un sujet qui n'aime pas l'improvisation : un système qu'on répare au feeling, c'est un système qu'on répare deux fois.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Mémorise l'ordre B.R.R.</strong> Bloquer, révoquer, réinitialiser. Le réciter avant d'agir évite l'erreur la plus fréquente sur ce type d'incident.</li>
+        <li><strong>Vérifie systématiquement les règles de la boîte mail</strong> après tout changement de mot de passe lié à un soupçon de compromission. Une règle qui supprime, transfère ou redirige automatiquement est suspecte jusqu'à preuve du contraire.</li>
+        <li><strong>Va jeter un œil aux applications tierces autorisées</strong> sur le compte concerné, même si tout semble réglé. C'est l'endroit où la plupart des techniciens ne pensent pas à regarder.</li>
+        <li><strong>Ne clôture jamais un dossier de ce type à J+1.</strong> Note une date de relecture des journaux de connexion à une semaine, puis à deux semaines.</li>
+        <li><strong>Prends cinq minutes pour t'entraîner avant que ça arrive en vrai.</strong> Va lire à quoi ressemble un journal de connexion ou une liste de règles de boîte mail sur un compte de test. Le jour où tu en as besoin en urgence, ce ne sera pas la première fois que tu regardes ce genre d'écran.</li>
+      </ul>
+
+      <p>Et c'est là qu'on rejoint l'idée du début. Le geste qui paraît le plus rassurant n'est pas toujours celui qui protège vraiment. Une fois qu'on a vu cet ordre une fois, qu'on l'a appliqué une fois sur un vrai dossier ou même juste répété à voix haute avant d'intervenir, on ne revient plus jamais au réflexe naturel. Tu fais partie de ceux qui, maintenant, coupent avant de réparer.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/security/compass/incident-response-playbook-compromised-malicious-app" target="_blank" rel="noopener noreferrer">Microsoft — Playbook de réponse à un compte ou une application compromise</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/detect-and-remediate-illicit-consent-grants" target="_blank" rel="noopener noreferrer">Microsoft — Détecter et corriger les consentements OAuth frauduleux</a></li>
+        <li><a href="https://techcommunity.microsoft.com/t5/microsoft-365-defender-blog/from-cookie-theft-to-bec/ba-p/2928134" target="_blank" rel="noopener noreferrer">Microsoft Tech Community — Du vol de session à la fraude par email professionnel</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-ins" target="_blank" rel="noopener noreferrer">Microsoft Entra — Comprendre les journaux de connexion</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
