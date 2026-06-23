@@ -32,47 +32,74 @@
   </header>
 
   <main>
-    <section class="section" style="padding-top:56px;">
+    <div class="articles-layout">
 
-      <!-- ============================================================
-           POUR AJOUTER UN SCRIPT :
-           1. Dépose la page du script (ex. script-mon-outil.html) à la racine.
-           2. Copie le bloc <a class="card script-card"> ci-dessous dans <div class="grid-3">.
-           3. Adapte href, langage, titre, description et méta.
-           ============================================================
+      <!-- ===== GRILLE DE SCRIPTS ===== -->
+      <div class="articles-main">
+        <div id="scripts-count" class="articles-count"></div>
+        <div id="scripts-grid" class="articles-col">
 
-      <div class="grid-3">
-        <a href="script-mon-outil.html" class="card script-card">
-          <div class="card-top">
-            <span class="card-icon"><i class="ph ph-terminal-window"></i></span>
-            <span class="tag tag-green brackets">powershell</span>
-          </div>
-          <h3>Nom du script</h3>
-          <p>Ce que fait le script, en une phrase claire.</p>
-          <div class="card-foot">
-            <span class="card-meta">v1.0 · 1.2 ko</span>
-            <span class="card-get"><i class="ph ph-download-simple"></i> Récupérer</span>
-          </div>
-        </a>
-      </div>
-      -->
+          <!-- ============================================================
+               POUR AJOUTER UN SCRIPT :
+               1. Dépose la page du script (ex. script-mon-outil.html) à la racine.
+               2. Copie le bloc <a class="card script-card"> ci-dessous.
+               3. Adapte href, data-cat, data-date, data-title, data-desc, et le contenu.
+               ============================================================ -->
 
-      <div class="grid-3">
-        <a href="article-creer-comptes-en-serie.html" class="card script-card">
-          <div class="card-top">
-            <span class="card-icon"><i class="ph ph-users"></i></span>
-            <span class="tag tag-green brackets">powershell</span>
-          </div>
-          <h3>Créer des comptes locaux en série sans en louper un</h3>
-          <p>Pourquoi créer quinze comptes à la main, c'est le genre de tâche qui se passe toujours bien jusqu'au onzième.</p>
-          <div class="card-foot">
-            <span class="card-meta">21 juin 2026 · 8 min</span>
-            <span class="card-get"><i class="ph ph-arrow-right"></i> Lire</span>
-          </div>
-        </a>
+          <a href="article-creer-comptes-en-serie.html" class="card script-card"
+             data-cat="systeme-windows"
+             data-date="2026-06"
+             data-title="comptes utilisateurs windows local powershell création droits admin"
+             data-desc="répétition erreur droits admin mot de passe génération systématique trace script">
+            <div class="card-top">
+              <span class="card-icon"><i class="ph ph-users"></i></span>
+              <span class="tag tag-green brackets">powershell</span>
+            </div>
+            <h3>Créer des comptes locaux en série sans en louper un</h3>
+            <p>Pourquoi créer quinze comptes à la main, c'est le genre de tâche qui se passe toujours bien jusqu'au onzième.</p>
+            <div class="card-foot">
+              <span class="card-meta">21 juin 2026 · 8 min</span>
+              <span class="card-get"><i class="ph ph-arrow-right"></i> Lire</span>
+            </div>
+          </a>
+
+        </div>
+
+        <div id="scripts-empty" class="articles-empty" style="display:none;">
+          <span class="em-prefix">// </span>aucun script ne correspond à ta recherche.
+        </div>
       </div>
 
-    </section>
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="articles-sidebar">
+
+        <div class="sb-block">
+          <div class="sb-heading">recherche</div>
+          <div class="sb-search">
+            <input type="text" id="search-input" placeholder="ex : comptes, powershell…" autocomplete="off">
+            <i class="ph ph-magnifying-glass sb-search-icon"></i>
+          </div>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-heading">catégories</div>
+          <div class="sb-tags" id="cat-tags">
+            <button class="sb-tag sb-tag-all active" data-cat="all">Tout</button>
+            <button class="sb-tag" data-cat="systeme-windows">système & windows</button>
+          </div>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-heading">période</div>
+          <div class="sb-tags" id="date-tags">
+            <button class="sb-tag sb-tag-all active" data-date="all">Tout</button>
+            <button class="sb-tag" data-date="2026-06">juin 2026</button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -100,6 +127,71 @@
       <span>finistweb.fr — égal à égal, on te donne tout</span>
     </div>
   </footer>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.script-card'));
+    const searchInput = document.getElementById('search-input');
+    const catTags = document.querySelectorAll('#cat-tags .sb-tag');
+    const dateTags = document.querySelectorAll('#date-tags .sb-tag');
+    const emptyMsg = document.getElementById('scripts-empty');
+    const countEl = document.getElementById('scripts-count');
+
+    let activeCat = 'all';
+    let activeDate = 'all';
+    let searchQuery = '';
+
+    function normalize(str) {
+      return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    }
+
+    function filter() {
+      const q = normalize(searchQuery);
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cat = card.dataset.cat;
+        const date = card.dataset.date;
+        const text = normalize(card.dataset.title + ' ' + card.dataset.desc + ' ' + card.textContent);
+
+        const matchCat = activeCat === 'all' || cat === activeCat;
+        const matchDate = activeDate === 'all' || date === activeDate;
+        const matchSearch = q === '' || text.includes(q);
+
+        if (matchCat && matchDate && matchSearch) {
+          card.classList.remove('card-hidden');
+          visible++;
+        } else {
+          card.classList.add('card-hidden');
+        }
+      });
+
+      emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+      countEl.textContent = visible === cards.length
+        ? ''
+        : visible + ' résultat' + (visible > 1 ? 's' : '');
+    }
+
+    catTags.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCat = btn.dataset.cat;
+        catTags.forEach(b => b.classList.toggle('active', b.dataset.cat === activeCat));
+        filter();
+      });
+    });
+
+    dateTags.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeDate = btn.dataset.date;
+        dateTags.forEach(b => b.classList.toggle('active', b.dataset.date === activeDate));
+        filter();
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value.trim();
+      filter();
+    });
+  </script>
 
 </body>
 </html>
