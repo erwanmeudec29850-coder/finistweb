@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articles | finistweb.fr</title>
+<meta name="description" content="L'informatique expliquée autrement, pour les étudiants et jeunes techs. Des concepts clairs, des images qui restent, du concret.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="inner">
+      <div class="kicker">// comprendre</div>
+      <h1>Articles</h1>
+      <p>Pas des cours. Des explications avec l'image qui reste, le geste qu'on refait. Pour les étudiants et les jeunes techs.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="articles-layout">
+
+      <!-- ===== GRILLE D'ARTICLES ===== -->
+      <div class="articles-main">
+        <div id="articles-count" class="articles-count"></div>
+        <div id="articles-grid" class="articles-col">
+
+          <a href="article-batterie-laptop-ne-charge-plus.html" class="card article-card"
+             data-cat="diagnostic-materiel"
+             data-date="2026-06"
+             data-title="batterie laptop charge plus ordre commander"
+             data-desc="laptop débranché éteint deux minutes adaptateur connecteur powercfg batteryreport lithium gonflée">
+            <span class="tag tag-signal brackets">diagnostic matériel</span>
+            <h3>Batterie laptop qui ne charge plus : l'ordre à respecter avant de commander quoi que ce soit</h3>
+            <p>Un laptop débranché qui s'éteint en deux minutes, tout le monde accuse la batterie direct. Le vrai coupable se teste en trente secondes, sans rien démonter.</p>
+            <div class="card-foot">
+              <span>22 juin 2026</span><span class="dot"></span><span>8 min</span>
+              <span class="card-arrow"><i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <a href="article-bsod-cause-racine.html" class="card article-card"
+             data-cat="systeme-windows"
+             data-date="2026-06"
+             data-title="écran bleu bsod panique stop code minidump driver"
+             data-desc="windows crash rapport coupable mode sans échec WhoCrashed BlueScreenView noyau">
+            <span class="tag tag-signal brackets">système & windows</span>
+            <h3>Écran bleu : pourquoi tout le monde panique, et pourquoi il ne faudrait pas</h3>
+            <p>Un BSOD a l'air d'annoncer le pire. En vrai, Windows te laisse une boîte noire à chaque crash — encore faut-il savoir où la trouver.</p>
+            <div class="card-foot">
+              <span>22 juin 2026</span><span class="dot"></span><span>8 min</span>
+              <span class="card-arrow"><i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <a href="article-bips-demarrage.html" class="card article-card"
+             data-cat="diagnostic-materiel"
+             data-date="2026-05"
+             data-title="bips démarrage carte mère hardware RAM POST"
+             data-desc="pc bipe écran noir code sonore diagnostic matériel mémoire">
+            <span class="tag tag-signal brackets">diagnostic matériel</span>
+            <h3>Un PC qui bipe au démarrage : décoder ce que la carte mère essaie de te dire</h3>
+            <p>Écran noir, juste des bips. Ce n'est pas Windows, c'est du hardware pur. Apprends à lire ces bips et à diagnostiquer la RAM.</p>
+            <div class="card-foot">
+              <span>15 mai 2026</span><span class="dot"></span><span>8 min</span>
+              <span class="card-arrow"><i class="ph-bold ph-arrow-right"></i></span>
+            </div>
+          </a>
+
+        </div>
+
+        <div id="articles-empty" class="articles-empty" style="display:none;">
+          <span class="em-prefix">// </span>aucun article ne correspond à ta recherche.
+        </div>
+      </div>
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="articles-sidebar">
+
+        <div class="sb-block">
+          <div class="sb-heading">recherche</div>
+          <div class="sb-search">
+            <input type="text" id="search-input" placeholder="ex : batterie, driver…" autocomplete="off">
+            <i class="ph ph-magnifying-glass sb-search-icon"></i>
+          </div>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-heading">catégories</div>
+          <div class="sb-tags" id="cat-tags">
+            <button class="sb-tag sb-tag-all active" data-cat="all">Tout</button>
+            <button class="sb-tag" data-cat="diagnostic-materiel">diagnostic matériel</button>
+            <button class="sb-tag" data-cat="systeme-windows">système & windows</button>
+          </div>
+        </div>
+
+        <div class="sb-block">
+          <div class="sb-heading">période</div>
+          <div class="sb-tags" id="date-tags">
+            <button class="sb-tag sb-tag-all active" data-date="all">Tout</button>
+            <button class="sb-tag" data-date="2026-06">juin 2026</button>
+            <button class="sb-tag" data-date="2026-05">mai 2026</button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.article-card'));
+    const searchInput = document.getElementById('search-input');
+    const catTags = document.querySelectorAll('#cat-tags .sb-tag');
+    const dateTags = document.querySelectorAll('#date-tags .sb-tag');
+    const emptyMsg = document.getElementById('articles-empty');
+    const countEl = document.getElementById('articles-count');
+
+    let activeCat = 'all';
+    let activeDate = 'all';
+    let searchQuery = '';
+
+    function normalize(str) {
+      return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    }
+
+    function filter() {
+      const q = normalize(searchQuery);
+      let visible = 0;
+
+      cards.forEach(card => {
+        const cat = card.dataset.cat;
+        const date = card.dataset.date;
+        const text = normalize(card.dataset.title + ' ' + card.dataset.desc + ' ' + card.textContent);
+
+        const matchCat = activeCat === 'all' || cat === activeCat;
+        const matchDate = activeDate === 'all' || date === activeDate;
+        const matchSearch = q === '' || text.includes(q);
+
+        if (matchCat && matchDate && matchSearch) {
+          card.classList.remove('card-hidden');
+          visible++;
+        } else {
+          card.classList.add('card-hidden');
+        }
+      });
+
+      emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+      countEl.textContent = visible === cards.length
+        ? ''
+        : visible + ' résultat' + (visible > 1 ? 's' : '');
+    }
+
+    catTags.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCat = btn.dataset.cat;
+        catTags.forEach(b => b.classList.toggle('active', b.dataset.cat === activeCat));
+        filter();
+      });
+    });
+
+    dateTags.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeDate = btn.dataset.date;
+        dateTags.forEach(b => b.classList.toggle('active', b.dataset.date === activeDate));
+        filter();
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value.trim();
+      filter();
+    });
+  </script>
+
+</body>
+</html>

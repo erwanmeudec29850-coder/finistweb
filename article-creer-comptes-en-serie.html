@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créer 15 comptes utilisateurs sans en louper un — finistweb.fr</title>
+<meta name="description" content="Créer des comptes locaux à la main, c'est le genre de tâche où l'erreur arrive pile quand tu ne la vois plus venir. Comment un petit script change la donne, et pourquoi automatiser une tâche simple n'est pas une histoire de flemme.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link active">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="scripts.html">~/scripts</a> / <span>creer-comptes-en-serie</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système &amp; windows</span>
+      <h1 class="article-title">Créer 15 comptes utilisateurs sans en louper un</h1>
+      <p class="article-lead">Le 3ᵉ compte, ça va. Le 9ᵉ, tu commences à zapper. Il y a un moment précis où ta vigilance lâche sans que tu t'en rendes compte, et c'est là que l'erreur se glisse.</p>
+      <div class="article-meta">
+        <span>21 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un client te demande quinze comptes Windows locaux pour l'ouverture d'un nouveau site. Rien de compliqué : un login, un mot de passe, un type de droits, une affectation. Tu en as déjà fait des dizaines à la main. Sauf que sur celle-là, le compte numéro 11 a hérité des droits admin du compte numéro 10, parce qu'à ce moment précis tu pensais à autre chose. Personne ne s'en aperçoit avant trois semaines. On va voir pourquoi ce genre de loupé n'est presque jamais une question de compétence, et ce qui change quand tu sors la tâche de ta tête pour la mettre dans un script.</p>
+
+      <h2>Pourquoi une tâche simple devient risquée quand elle se répète</h2>
+      <p>Créer un compte Windows local, c'est trois clics ou une ligne de commande. N'importe quel débutant sait le faire dès sa première semaine. Le problème n'est jamais la difficulté du geste. C'est sa <strong>répétition</strong>. Fais ce geste une fois, ton attention est à 100 %. Fais-le quinze fois à la suite, ton cerveau commence à automatiser le motif, et c'est précisément là que les détails individuels — ce login précis, ce droit précis — se mélangent dans ta tête.</p>
+      <p>Ce n'est pas une question de sérieux. C'est de la mécanique cognitive pure : plus une tâche est répétitive, plus ton cerveau lui applique un traitement « pilote automatique », et le pilote automatique ne vérifie pas les détails, il reproduit le motif général. C'est exactement ce qui te fait taper deux fois le même mot de passe pour deux comptes différents, ou cocher la case admin sur le mauvais nom.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Imagine un ouvrier qui visse la même vis toute la journée sur une chaîne de montage. Au bout d'une heure, ses mains ne « pensent » plus la vis individuellement, elles répètent un mouvement. Tant que toutes les pièces sont identiques, ça marche. Le jour où une pièce diffère légèrement, et qu'il continue le même geste sans s'arrêter, c'est le défaut qui passe. Ta création de comptes à la main, c'est la même chaîne. Sauf que chez toi, les pièces ne sont jamais identiques : chaque login, chaque mot de passe, chaque service est différent.</p>
+      </div>
+
+      <h2>Le réflexe qu'on a, et pourquoi il est à l'envers</h2>
+      <p>Là, le réflexe naturel c'est de se dire : « je vais juste faire attention, je vais relire chaque compte avant de valider ». Et ça marche... jusqu'au moment où ça ne marche plus, parce que la vigilance n'est pas une ressource infinie qu'on peut décider d'augmenter à volonté. Elle s'épuise avec la répétition, exactement comme un muscle.</p>
+      <p>L'idée fausse, c'est de penser qu'écrire un script pour quinze comptes c'est plus de travail, plus de risque de bug, et donc moins fiable qu'un humain attentif qui fait les choses « à la main, donc sous contrôle ». En réalité c'est l'inverse : un script qui pose la même question, dans le même ordre, avec la même logique, à chaque itération, ne se fatigue jamais et ne change jamais de motif au quinzième passage. Il fait l'erreur que <em>tu</em> lui as faite une fois, systématiquement, donc si elle n'y est pas au départ, elle n'apparaît jamais en cours de route. C'est ton cerveau fatigué qui est la variable instable, pas l'outil.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Automatiser une tâche répétitive, ce n'est pas de la flemme. C'est sortir une décision de la zone où ton attention se dégrade, pour la mettre dans une zone où elle ne se dégrade jamais.</p>
+      </div>
+
+      <h2>Ce que ça change concrètement de scripter le geste</h2>
+      <p>Un script qui industrialise la création de comptes locaux fait trois choses qu'un humain fatigué ne fait pas bien à la quinzième itération :</p>
+      <ul>
+        <li><strong>Il pose toujours la même question, dans le même ordre.</strong> Login, type de compte, affectation. Jamais sauté, jamais dans le désordre, jamais deviné « pour gagner du temps ».</li>
+        <li><strong>Il applique les droits de façon déterministe.</strong> S'il décide qu'un compte est administrateur, il l'ajoute au groupe administrateurs et seulement à celui-là, pas de glissement d'un profil au suivant.</li>
+        <li><strong>Il garde une trace.</strong> Une fois les comptes créés, il sort un récapitulatif (qui a quel login, quel mot de passe, quel rôle) que tu peux relire à froid, sans avoir à te souvenir de quinze conversations différentes.</li>
+      </ul>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> le piège à éviter</div>
+        <p>Générer les mots de passe « à la main » au fur et à mesure, c'est le deuxième endroit où ça dérape. Sous pression, un humain a tendance à produire des mots de passe qui se ressemblent (même base, juste le numéro qui change), ou pire, à recopier le même pour aller plus vite. Un mot de passe prévisible reste un mot de passe faible, même s'il respecte la longueur et les caractères spéciaux exigés. La bonne pratique : que la génération du mot de passe suive une règle systématique et non-devinable, jamais une improvisation de fin de journée.</p>
+      </div>
+
+      <h2>Pourquoi ça compte plus que ça n'en a l'air</h2>
+      <p>Un compte mal configuré, des droits admin qu'il ne devrait pas avoir, un mot de passe trop prévisible, ne pose généralement pas de problème le jour de sa création. Le problème arrive trois semaines, six mois, parfois deux ans plus tard, quand quelqu'un d'autre que toi tombe sur ce compte et se demande pourquoi il a accès à des choses qu'il ne devrait pas avoir. À ce moment-là, personne ne se souvient du contexte. La trace écrite du jour de la création, précise, systématique, c'est souvent la seule chose qui permette de comprendre ce qui s'est passé et de corriger sans tout casser.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> la règle terrain</div>
+        <p>Dès que tu te retrouves à créer le même type de chose plus de trois ou quatre fois dans la même intervention — comptes, dossiers, partages, règles — pose-toi la question : est-ce que je suis en train de répéter un motif que je pourrais figer dans un script ? Tu n'as pas besoin d'être développeur pour ça. Un script de quelques dizaines de lignes qui pose des questions et applique toujours la même logique, c'est largement à ta portée, et ça te fait gagner en fiabilité dès la deuxième utilisation.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Identifie le motif répété</strong> dans ta tâche : qu'est-ce qui revient à l'identique à chaque itération (la structure de la question, la logique des droits), et qu'est-ce qui change (le nom, l'affectation) ?</li>
+        <li><strong>Fixe une règle systématique pour tout ce qui doit varier de façon contrôlée</strong>, en particulier les mots de passe : une génération qui suit toujours la même logique, jamais une improvisation au cas par cas.</li>
+        <li><strong>Fais produire une trace lisible à chaque exécution</strong> — un récapitulatif que tu peux relire à froid, pas une information qui n'existe que dans ta mémoire du moment.</li>
+        <li><strong>Teste d'abord sur un cas où l'erreur ne coûte rien</strong>, avant de l'utiliser en conditions réelles chez un client.</li>
+      </ul>
+
+      <p>Le compte numéro 11 qui hérite des mauvais droits, ce n'est pas un manque de sérieux de ta part. C'est la preuve que tu es humain, et que ton attention a une limite parfaitement normale. La bonne nouvelle, c'est que ce genre de loupé a une solution qui ne demande pas de devenir plus rigoureux à la force de la volonté — juste de sortir le geste répétitif de ta tête et de le poser dans un outil qui, lui, ne se fatigue jamais au quinzième passage.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.localaccounts/new-localuser" target="_blank" rel="noopener noreferrer">Microsoft Learn — Documentation officielle de la cmdlet New-LocalUser</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows/security/identity-protection/access-control/local-accounts" target="_blank" rel="noopener noreferrer">Microsoft Learn — Comptes locaux et bonnes pratiques de gestion des droits sous Windows</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
