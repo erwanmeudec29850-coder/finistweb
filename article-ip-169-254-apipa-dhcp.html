@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP en 169.254 : pourquoi ton PC se débrouille seul (et c'est un problème) — finistweb.fr</title>
+<meta name="description" content="Une adresse IP qui commence par 169.254, c'est Windows qui improvise parce que personne ne lui a répondu. Voici comment trouver qui n'a pas répondu, et pourquoi.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>ip-169-254-apipa-dhcp</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">réseau</span>
+      <h1 class="article-title">IP en 169.254.x.x : ton PC ne panique pas, il improvise (et c'est là le problème)</h1>
+      <p class="article-lead">Un poste sans Internet, un <code>ipconfig</code> qui balance une adresse bizarre en 169.254, et toi devant, pas sûr par où commencer. La bonne nouvelle : il y a une question à poser avant même de toucher au clavier, et elle change tout.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Tu arrives sur un poste qui n'a plus Internet. Tu tapes <code>ipconfig</code> par réflexe, et là, une adresse du genre <code>169.254.37.12</code> s'affiche. Pas de panique apparente, l'écran ne hurle aucune erreur. Et c'est justement ça qui piège la moitié des débutants : ils cherchent un message d'erreur qui n'existe pas, alors que la vraie info est déjà sous leurs yeux, planquée dans un chiffre. On va regarder ce que cette adresse raconte, et surtout, la question à se poser en premier pour ne pas perdre vingt minutes sur la mauvaise piste.</p>
+
+      <h2>Pourquoi Windows invente une adresse au lieu de planter</h2>
+      <p>Quand un PC démarre, il a besoin d'une adresse IP pour exister sur le réseau. Il ne la connaît pas d'avance, alors il la demande à voix haute : « quelqu'un peut m'en donner une ? ». Cette demande s'appelle DHCP, et normalement, un serveur quelque part lui répond en deux secondes avec une adresse propre, du genre <code>192.168.1.45</code>.</p>
+
+      <p>Le détail qui change tout : Windows n'a pas été conçu pour planter bêtement si personne ne répond. À la place, il s'auto-attribue une adresse de secours dans une plage réservée à cet usage, qui commence toujours par <code>169.254</code>. C'est un mécanisme volontaire, normalisé, pas un bug.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Tu arrives dans une ville pour une réservation d'hôtel. Personne ne répond à la réception, alors plutôt que de rester planté sur le trottoir, tu décides de dormir dans ta voiture, garée n'importe où. Tu es « quelque part », techniquement présent dans la ville. Mais tu n'es pas à l'hôtel, tu n'as pas la clé des bonnes portes, et personne ne sait que tu es là. C'est exactement ce que fait ton PC en 169.254 : il existe sur le réseau, mais il est seul, sans passerelle, sans DNS, sans accès à rien d'utile.</p>
+      </div>
+
+      <p>Ton cerveau te dit que si le PC a quand même une adresse, la carte réseau doit fonctionner et le souci vient forcément d'un réglage logiciel quelque part. C'est l'intuition naturelle. Et c'est faux : une carte réseau peut être en parfait état de marche et ne jamais recevoir de réponse DHCP, simplement parce que le câble est mort, le port du switch est désactivé, ou le serveur qui distribue les adresses est en panne ailleurs sur le réseau. L'adresse 169.254 ne te dit pas où est le problème. Elle te dit juste qu'une conversation n'a jamais eu de réponse.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>169.254, ça se lit : « j'ai demandé, personne n'a répondu ». La question utile n'est pas « qu'est-ce qui cloche sur ce PC », mais « qui n'a pas répondu, et pourquoi ».</p>
+      </div>
+
+      <h2>La question à poser avant de toucher quoi que ce soit</h2>
+      <p>Voilà l'endroit où la plupart des débutants perdent du temps : ils foncent direct sur le poste en panne, ouvrent des fenêtres, relancent des trucs, sans s'être demandé une chose simple en premier. Cette question divise tout le dépannage en deux chemins complètement différents, et elle ne coûte rien à poser : <strong>est-ce qu'il y a un seul poste touché, ou plusieurs ?</strong></p>
+
+      <p>Si c'est un seul poste, le problème est probablement local à cette machine ou à son raccordement : câble, port réseau, pilote, service Windows arrêté. Si plusieurs postes tombent en même temps, le problème dépasse la machine que tu as sous les yeux. Il est côté serveur ou côté infrastructure : le service qui distribue les adresses est en panne, ou il n'a tout simplement plus rien à distribuer.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est la différence entre une panne d'eau dans une seule pièce de l'appartement et une coupure dans tout l'immeuble. Si seul l'évier de la cuisine est à sec, tu regardes ton robinet, ta canalisation. Si tout l'immeuble n'a plus une goutte, inutile de démonter l'évier : va voir le compteur général, ou appelle le syndic. Le réflexe « combien de pièces sont touchées » t'évite de chercher au mauvais endroit.</p>
+      </div>
+
+      <p>L'intuition naturelle pousse à foncer sur ce qu'on voit : le PC devant soi, l'écran qui affiche le souci. Sauf que si tu passes vingt minutes à inspecter une machine parfaitement saine, pendant que c'est le serveur qui distribue les adresses qui est en rade pour quinze postes, tu as juste retardé le vrai diagnostic. Pose la question en premier. Toujours.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>1 poste touché = tu regardes la machine et son raccordement. Plusieurs postes touchés en même temps = tu regardes le serveur ou l'infrastructure réseau. Cette question prend trois secondes et t'évite de creuser au mauvais endroit pendant un quart d'heure.</p>
+      </div>
+
+      <h2>Les suspects habituels, du plus probable au plus rare</h2>
+      <p>Une fois la question posée, tu sais où chercher. Sur le terrain en TPE/PME, voici les causes qui reviennent, classées de la plus fréquente à la plus exotique :</p>
+
+      <ol>
+        <li><strong>Un câble débranché ou un port de switch mort.</strong> Le suspect numéro un, et le plus simple à éliminer : un coup d'œil et un changement de câble suffisent souvent.</li>
+        <li><strong>Le service qui gère le DHCP, arrêté sur le poste.</strong> Plus rare, mais ça arrive après une mise à jour ou une manipulation malheureuse.</li>
+        <li><strong>Le serveur qui distribue les adresses ne répond plus.</strong> Redémarrage en cours, service planté ailleurs sur le réseau.</li>
+        <li><strong>Le réservoir d'adresses disponibles est vide.</strong> Toutes les adresses du stock sont attribuées, ou retenues par des baux qui ne se sont jamais libérés.</li>
+        <li><strong>Le port réseau est configuré sur le mauvais segment.</strong> Fréquent après un déplacement de poste : le port du switch n'écoute pas le bon réseau, donc le bon serveur ne reçoit jamais la demande.</li>
+        <li><strong>Conflit d'adresse détecté par Windows.</strong> Rare, mais Windows peut refuser une adresse qu'il croit déjà prise par un autre poste.</li>
+        <li><strong>Une authentification réseau bloque le poste.</strong> Contexte plus avancé : le port refuse de laisser passer quoi que ce soit avant validation d'un certificat ou d'une identité.</li>
+      </ol>
+
+      <p>Le contre-intuitif ici, c'est que la liste descend en fréquence pendant que la difficulté technique monte. Le cas le plus fréquent, c'est aussi le plus bête à régler.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Sur un seul poste, commence toujours par la manipulation la moins chère :</strong> demander à Windows de relâcher puis redemander une adresse. Ça règle une bonne partie des cas où le service avait juste un coup de mou temporaire.</li>
+        <li><strong>Vérifie que le service réseau qui gère les adresses tourne</strong> côté poste. S'il est arrêté, relance-le avant de redemander une adresse.</li>
+        <li><strong>Toujours suspecter le câble et le port avant le logiciel.</strong> Change de câble, teste un autre port si possible. C'est gratuit en temps et ça élimine la cause numéro un.</li>
+        <li><strong>Si le poste vient d'être déplacé</strong>, pense immédiatement au port réseau mal configuré sur le mauvais segment — c'est l'oubli classique après un changement de bureau.</li>
+        <li><strong>Si plusieurs postes sont touchés au même moment</strong>, va directement vérifier le service qui distribue les adresses : est-il en marche, a-t-il encore des adresses à donner ?</li>
+        <li><strong>Vérifie toujours le résultat avec une commande qui affiche l'état complet de la carte</strong>, pas juste un coup d'œil rapide : une tentative de renouvellement peut échouer silencieusement et laisser l'ancienne adresse de secours affichée sans message d'erreur.</li>
+      </ul>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Demander une nouvelle adresse ne donne pas toujours un message d'erreur clair en cas d'échec. Le poste peut rester en 169.254 sans rien afficher de spécial. Vérifie systématiquement l'état complet après la tentative, pas seulement si la commande s'est « bien passée ».</p>
+      </div>
+
+      <p>Une fois l'adresse correcte récupérée, le test de validation est simple : l'adresse appartient à la bonne plage de l'entreprise, le poste arrive à joindre la passerelle, la résolution de noms fonctionne, et Internet répond. Si une seule de ces quatre choses manque encore, le diagnostic n'est pas terminé.</p>
+
+      <p>Tu sais maintenant lire un chiffre que la plupart des débutants regardent sans comprendre, et tu sais surtout dans quel ordre poser les questions avant d'agir. C'est exactement la différence entre suivre une procédure et vraiment savoir pourquoi elle marche. La prochaine fois qu'un <code>ipconfig</code> t'affiche ce fameux 169.254, tu ne seras plus seul devant l'écran à te demander par où commencer — tu sauras déjà.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/automatic-private-ip-addressing" target="_blank" rel="noopener noreferrer">Microsoft Learn — Automatic Private IP Addressing (APIPA)</a></li>
+        <li><a href="https://datatracker.ietf.org/doc/html/rfc3927" target="_blank" rel="noopener noreferrer">IETF — RFC 3927, Dynamic Configuration of IPv4 Link-Local Addresses</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/troubleshoot-problems-on-dhcp-server" target="_blank" rel="noopener noreferrer">Microsoft Learn — Dépannage des problèmes de serveur DHCP</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
