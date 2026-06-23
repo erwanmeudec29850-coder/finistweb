@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get-SystemMapping.ps1 : l'état des lieux complet d'un poste, sans rien oublier — finistweb.fr</title>
+<meta name="description" content="Un script gratuit qui cartographie tout un poste Windows et sort un rapport technique complet plus un PDF client lisible.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link active">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="scripts.html">~/scripts</a> / <span>get-system-mapping-ps1</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système &amp; windows</span>
+      <h1 class="article-title">Get-SystemMapping.ps1 : l'état des lieux complet d'un poste, sans rien oublier</h1>
+      <p class="article-lead">Avant une intervention, ou après, tu veux savoir exactement ce qu'il y a sur un poste. La RAM, les disques, le réseau, les logiciels installés, les tâches planifiées qui tournent en douce. Le taper à la main, c'est dix commandes et vingt minutes de copier-coller. Voici ce qu'il y a dans le script qui fait ça en une fois.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Il y a un réflexe qu'on prend tous, débutant : noter ce qu'on voit au fur et à mesure qu'on avance dans une intervention. Le problème, c'est que ce qu'on note "au fur et à mesure" oublie toujours un truc. Une tâche planifiée louche qu'on n'a pas pensé à vérifier. Un disque dont on n'a jamais regardé l'état de santé réel. <code>Get-SystemMapping.ps1</code> part d'un principe différent : tout collecter d'un coup, dans l'ordre, sans rien zapper, puis ranger ça dans deux documents qui ne se ressemblent pas du tout. Voilà comment il s'y prend, et pourquoi le plus dur n'était pas de tout récupérer, mais de savoir quoi laisser de côté.</p>
+
+      <h2>Pourquoi un inventaire complet plutôt qu'une vérification au cas par cas</h2>
+      <p>Voici ce qui se passe quand tu vérifies un poste "à l'instinct" : tu regardes ce qui te semble pertinent sur le moment, en fonction du symptôme qu'on t'a décrit. Sauf que le truc qui explique vraiment le problème est parfois ailleurs, dans une section que tu n'avais aucune raison de regarder ce jour-là. <code>Get-SystemMapping.ps1</code> retourne le problème : il collecte tout, par défaut, et c'est à toi de décocher ce qui ne t'intéresse pas, pas l'inverse.</p>
+      <p>Concrètement, le script propose onze sections au lancement : la machine et son système, la RAM jusqu'au détail de chaque barrette, les disques (volumes et santé physique), le réseau actif, les partages réseau montés, les imprimantes, les logiciels installés (classiques et applications Microsoft Store), les services tiers qui démarrent automatiquement, les tâches planifiées qui ne viennent pas de Microsoft, et les certificats du magasin personnel. Tout est coché par défaut. Tu décoches seulement ce qui ne t'intéresse pas pour cette intervention précise.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est la différence entre un médecin qui ausculte seulement la zone où tu as mal, et un bilan de santé complet qui passe en revue tout le corps. Le premier va vite, mais il rate ce qui ne fait pas encore mal. Le deuxième prend un peu plus de temps, et il trouve des choses que tu n'avais même pas pensé à signaler.</p>
+      </div>
+
+      <h2>Le vrai travail n'est pas de tout montrer, c'est de savoir quoi cacher</h2>
+      <p>Ton premier réflexe en lisant "inventaire complet" serait de penser qu'un bon script de cartographie liste absolument tout ce qu'il trouve. En fait, c'est l'inverse : un inventaire qui montre tout, sans filtre, devient illisible. Windows fait tourner des centaines de services et des dizaines de tâches planifiées juste pour exister. Si le rapport les liste tous, le technicien doit lui-même refaire le tri à la main, et le script n'a servi à rien.</p>
+      <p>Sur la section des services, le script ne retient que ceux dont l'exécutable ne vit pas dans les dossiers système de Windows lui-même. Sur les tâches planifiées, il exclut tout ce qui est rangé sous le chemin Microsoft interne. Le résultat n'est pas "tout ce qui existe sur ce poste", c'est "tout ce qui a été ajouté par quelqu'un d'autre que Windows". C'est cette ligne de filtre qui transforme une liste de deux cents entrées en une liste de cinq ou dix, celles qui méritent vraiment un coup d'œil.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Un rapport qui montre tout n'aide personne, il faut juste rajouter une étape de tri derrière. Le bon filtre n'est pas celui qui montre plus, c'est celui qui montre moins, mais que ce qui compte.</p>
+      </div>
+
+      <h2>Pourquoi le disque physique se vérifie de deux façons différentes</h2>
+      <p>Voici un piège classique quand on écrit un script qui doit tourner sur n'importe quel poste : utiliser uniquement la commande la plus moderne, et planter sur les postes plus anciens où elle n'existe pas. Pour lire l'état de santé des disques physiques, Windows propose une commande récente qui donne une vraie évaluation de santé (bon état, attention, défaillant). Mais elle n'est pas disponible partout, en particulier sur certaines configurations plus anciennes ou limitées.</p>
+      <p><code>Get-SystemMapping.ps1</code> essaie d'abord cette commande moderne. Si elle échoue, il bascule automatiquement sur l'ancienne méthode, plus basique, qui donne au moins le modèle et la taille du disque sans l'évaluation de santé. Le lecteur du rapport ne voit jamais l'échec intermédiaire, juste le tableau rempli avec ce qui a pu être récupéré.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> la règle terrain</div>
+        <p>Sur un script qui doit tourner sur un parc varié, ne jamais s'appuyer sur une seule commande pour une information donnée. Toujours prévoir un repli vers la méthode plus ancienne, même si elle donne moins de détails. Moins d'info qui marche partout vaut mieux qu'une info parfaite qui plante ailleurs.</p>
+      </div>
+
+      <h2>Pourquoi deux fichiers, et pas un seul</h2>
+      <p>Voici l'erreur facile à faire : produire un seul rapport et l'envoyer tel quel au client. Le problème, c'est qu'un rapport assez détaillé pour être utile à un technicien (tableaux complets, numéros de série, chemins d'exécutables) est souvent imbuvable pour un client qui veut juste comprendre l'état général de son poste.</p>
+      <p><code>Get-SystemMapping.ps1</code> tranche en produisant deux fichiers à partir des mêmes données collectées : un fichier technique brut (.md) qui garde tout, sans mise en forme particulière, pour celui qui doit creuser ou comparer dans le temps, et un fichier PDF mis en forme proprement, pensé pour être montré ou envoyé tel quel. Les deux viennent de la même collecte, donc aucune incohérence possible entre les deux versions.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme un dossier médical et un compte-rendu de consultation. Le dossier complet reste chez le médecin, avec tout le détail clinique. Le compte-rendu qu'on te donne à la sortie résume l'essentiel, dans une forme que tu peux comprendre sans avoir fait dix ans d'études.</p>
+      </div>
+
+      <p>Le PDF se génère via un navigateur en mode invisible (Chrome en priorité, Edge en repli), exactement comme pour la conversion d'un rapport de diagnostic batterie déjà vue sur ce site. Si aucun des deux n'est trouvé sur le poste, le script le signale franchement et garde le rapport technique disponible : pas de PDF cassé, juste l'absence honnête d'un format en plus.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Lance le script en administrateur</strong>, certaines sections (disques physiques, certains services) demandent ce niveau pour donner une information complète.</li>
+        <li><strong>Décoche les sections qui ne t'intéressent pas</strong> pour cette intervention précise, plutôt que de tout laisser tourner par automatisme.</li>
+        <li><strong>Indique un nom de client ou de poste</strong>, ça sert uniquement à classer le rapport dans un dossier daté.</li>
+        <li><strong>Choisis où ranger le résultat</strong> : disque "outils" si tu en as un, sinon le Bureau fonctionne très bien.</li>
+        <li><strong>Laisse tourner sans toucher au clavier</strong>, la collecte prend quelques dizaines de secondes selon les sections cochées.</li>
+        <li><strong>Garde le .md pour toi</strong>, et envoie le .pdf si tu dois montrer l'état des lieux à quelqu'un d'autre.</li>
+      </ul>
+
+      <p>Voilà ce qu'il y a dans la boîte : pas un inventaire qui note tout en vrac, mais un inventaire qui sait déjà ce qui mérite d'être regardé deux fois, et qui le présente sous deux formes selon qui va le lire.</p>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-code"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// l'outil à emporter</div>
+          <strong>Get-SystemMapping.ps1 — script PowerShell</strong>
+          <p>Le script sera bientôt disponible sur Ko-fi. Tu le poses sur le poste, tu le lances, c'est fait.</p>
+          <a href="https://ko-fi.com/erwanfinistwebfr" class="btn btn-dl" target="_blank" rel="noopener noreferrer">Voir sur Ko-fi</a>
+        </div>
+      </div>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
