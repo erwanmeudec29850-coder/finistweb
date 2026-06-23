@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diag_Batterie.ps1 : un diagnostic batterie complet en une commande — finistweb.fr</title>
+<meta name="description" content="Un script PowerShell gratuit qui croise toutes les sources Windows sur la batterie et sort un rapport client prêt à montrer, PDF compris.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link active">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="scripts.html">~/scripts</a> / <span>diag-batterie-ps1</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">diagnostic matériel</span>
+      <h1 class="article-title">Diag_Batterie.ps1 : un diagnostic batterie complet en une commande</h1>
+      <p class="article-lead">Taper trois commandes différentes, ouvrir trois rapports HTML, faire le calcul à la main, puis rédiger un mail au client pour lui expliquer le résultat. Ou lancer un seul script qui fait tout ça et te sort un PDF prêt à montrer. Je t'explique ce qu'il y a dans la boîte.</p>
+      <div class="article-meta">
+        <span>23 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Il y a un moment précis où ce script existe : tu as un portable client qui "ne tient plus la charge", et tu dois trancher en cinq minutes entre "batterie morte" et "rien à voir, c'est un réglage". Le faire à la main, c'est trois commandes, deux rapports HTML à lire en diagonale, et un calcul de pourcentage que tu fais de tête en croisant les doigts. Le script fait exactement la même chose, mais il croise tout, calcule tout, et te donne un verdict écrit noir sur blanc. Voilà comment il s'y prend, et pourquoi il a fallu plus de tentatives que prévu pour qu'il marche vraiment partout.</p>
+
+      <h2>Pourquoi un seul outil plutôt que trois commandes à la main</h2>
+      <p>Voici ce que tu risques si tu diagnostiques une batterie à la main, sous pression, devant le client ou en atelier avec dix postes qui attendent : tu oublies une étape, tu lis mal un chiffre, ou tu donnes un verdict à l'instinct alors que la donnée existait déjà dans Windows. <code>Diag_Batterie.ps1</code> existe pour supprimer cette marge d'erreur. Il lance dans l'ordre tout ce qu'un technicien ferait s'il avait le temps de tout faire proprement : lire la capacité de la batterie, générer le rapport d'historique Windows, chercher les causes logicielles, et si tu veux, mesurer une vraie décharge en direct.</p>
+      <p>Concrètement, une fois lancé, le script demande le nom du client, te propose où ranger le rapport (un disque "outils" si tu en as un branché, le Bureau, ou un chemin libre), puis tourne seul pendant que tu fais autre chose. À la fin, tu as un dossier complet : le rapport, ses annexes techniques, un fichier PDF prêt à envoyer.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est la différence entre faire l'inventaire d'un magasin rayon par rayon avec un carnet, et appuyer sur un bouton qui scanne tout le magasin d'un coup et imprime le rapport. Même résultat, mais l'un prend vingt minutes de concentration, l'autre tourne pendant que tu bois ton café.</p>
+      </div>
+
+      <h2>Ce que le script va chercher, et pourquoi il ne se contente jamais d'une seule source</h2>
+      <p>Voici le piège que la plupart des scripts trouvés en ligne ne gèrent pas : ils supposent que toutes les données seront toujours là. Sur le terrain, ce n'est jamais vrai. Certains firmwares de constructeurs n'exposent pas le compteur de cycles. Certains postes n'ont pas le module WMI étendu activé. Un script qui plante à la première donnée manquante, c'est un script que tu ne peux pas utiliser en confiance chez un client.</p>
+      <p><code>Diag_Batterie.ps1</code> est construit en cascade : il essaie d'abord la source la plus fiable (le module WMI étendu), et si elle est absente, il va chercher la même information ailleurs, dans le rapport HTML généré par <code>powercfg /batteryreport</code>, puis dans le XML brut si même le HTML est incomplet. Le lecteur, lui, ne voit jamais l'échec : juste le résultat final, avec une mention discrète de la source utilisée.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Aucune étape du script ne s'arrête sur un échec partiel. Une donnée manquante est contournée, jamais bloquante. C'est ce qui permet de le lancer sur n'importe quel Windows 10/11, n'importe quelle marque, sans savoir d'avance ce que le firmware va bien vouloir donner.</p>
+      </div>
+
+      <p>Ton premier réflexe en lisant "trois sources de repli en cascade" serait de penser que c'est de la sur-ingénierie pour un simple diagnostic batterie. En fait, c'est l'inverse : un script de diagnostic qui ne gère qu'un seul cas de figure n'est fiable que sur les postes qui correspondent exactement à ce cas. Sur le parc varié d'un technicien (marques, âges, firmwares différents), c'est cette redondance qui transforme un script "qui marche chez moi" en outil qu'on peut vraiment déployer chez n'importe quel client.</p>
+
+      <h2>Le test de décharge en direct : la mesure qui confirme ou contredit le calcul théorique</h2>
+      <p>Le compteur d'usure et l'historique Windows donnent une estimation. Mais une estimation reste une estimation. Le script propose, en option, un vrai test : débrancher le chargeur, choisir une durée entre 5 et 60 minutes, et regarder la batterie se vider en direct, pourcentage par pourcentage, à l'écran.</p>
+      <p>À la fin du test, le script ne se contente pas d'afficher "il a perdu X%". Il convertit cette perte en énergie réelle consommée (en mWh, pas juste en pourcentage), projette l'autonomie complète que ça donnerait depuis une pleine charge, et la compare directement à l'estimation tirée de l'historique Windows sur plusieurs semaines. Si les deux chiffres se rejoignent, le diagnostic est solide. S'ils divergent fortement, c'est le signal qu'autre chose (une appli en tâche de fond, une synchronisation lancée pendant le test) a faussé la mesure du moment.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme comparer la consommation d'essence annoncée par le constructeur et celle que tu mesures vraiment sur un plein. Si l'écart est petit, tu fais confiance au chiffre du constructeur. Si l'écart est énorme, ce n'est pas le moteur qui a un problème : c'est ta façon de conduire ce jour-là qu'il faut regarder.</p>
+      </div>
+
+      <ol class="steps">
+        <li><strong>Débrancher le chargeur</strong> avant de lancer le test, le script le vérifie et te bloque sinon.</li>
+        <li><strong>Choisir une durée</strong>, 10 minutes suffisent pour une mesure exploitable.</li>
+        <li><strong>Laisser tourner</strong>, le script affiche la charge en temps réel pendant le test.</li>
+        <li><strong>Lire la confrontation finale</strong> entre la mesure directe et l'estimation longue durée, affichée automatiquement.</li>
+      </ol>
+
+      <h2>Pourquoi le verdict final n'est jamais un simple "bon" ou "mauvais"</h2>
+      <p>Voici l'erreur facile à faire en écrivant ce genre d'outil : réduire la sortie à un seul critère, par exemple l'usure en pourcentage, et juger toute la batterie sur ce seul chiffre. Le script ne fait pas ça, et c'est volontaire.</p>
+      <p>Une batterie peut afficher une usure faible et pourtant donner une autonomie réelle catastrophique, ou inversement, une usure élevée mais une autonomie encore tout à fait correcte pour l'usage du client. Le verdict croise donc l'usure calculée ET l'autonomie réelle mesurée, et seulement après ça regarde les causes logicielles annexes : plan d'alimentation gourmand, luminosité d'écran élevée, erreurs détectées par le rapport énergétique de Windows, top 5 des processus qui consomment le plus de CPU au moment du diagnostic. Le rapport final liste ces pistes une par une, pas juste un chiffre brut.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> la règle terrain</div>
+        <p>Le verdict du script n'est jamais "remplace la batterie" tout court. C'est toujours "voilà l'état réel, et voilà ce qui pourrait expliquer le ressenti du client si la batterie elle-même n'est pas en cause."</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Lance le script en clic-droit "Exécuter en tant qu'administrateur"</strong> (ou via le .bat fourni), il gère lui-même l'élévation si tu oublies.</li>
+        <li><strong>Réponds au nom du client</strong> quand il te le demande, ça sert juste à nommer le fichier de sortie.</li>
+        <li><strong>Choisis l'emplacement de sortie</strong> : disque "outils" si tu en as un, sinon le Bureau fonctionne très bien.</li>
+        <li><strong>Laisse tourner sans toucher au clavier</strong> pendant la génération des rapports Windows, ça prend une à deux minutes.</li>
+        <li><strong>Accepte ou refuse le test de décharge</strong> selon le temps que tu as devant toi, le diagnostic reste valable sans ce test, juste un peu moins confirmé.</li>
+        <li><strong>Récupère le PDF généré automatiquement</strong> (ou le HTML si aucun navigateur compatible n'est trouvé sur le poste) et envoie-le tel quel au client.</li>
+      </ul>
+
+      <p>Voilà ce qu'il y a dans la boîte : pas de magie, juste toutes les étapes qu'un bon diagnostic batterie demande, enchaînées sans qu'aucune ne soit oubliée sous la pression d'un planning serré.</p>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-code"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// l'outil à emporter</div>
+          <strong>Diag_Batterie.ps1 — script PowerShell</strong>
+          <p>Tu le poses sur le poste, tu le lances, c'est fait. Disponible sur Ko-fi, gratuit.</p>
+          <a href="https://ko-fi.com/s/9c3437f647" class="btn btn-dl" target="_blank" rel="noopener noreferrer">Télécharger — gratuit</a>
+        </div>
+      </div>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options" target="_blank" rel="noopener noreferrer">Microsoft Learn — Powercfg command-line options</a></li>
+        <li><a href="https://support.microsoft.com/en-us/windows/caring-for-your-battery-in-windows-2db3e37f-5e7d-488e-9086-ed15320519e4" target="_blank" rel="noopener noreferrer">Support Microsoft — Caring for your battery in Windows</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
