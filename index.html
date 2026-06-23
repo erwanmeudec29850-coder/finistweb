@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>finistweb.fr — La technique qu'on t'a cachée</title>
+<meta name="description" content="Ressources techniques pour jeunes techniciens IT — scripts, articles, outils gratuits. Par Erwan Meudec.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <!-- ====================== NAVBAR ====================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====================== HERO ====================== -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-prompt"><span class="user">erwan@finistweb</span>:<span class="path">~</span>$ whoami<span class="fw-cursor"></span></div>
+        <h1>La technique qu'on t'a <span class="accent">cachée.</span><br>Je te la donne.</h1>
+        <p class="hero-lead">Articles qui font comprendre, scripts qui font gagner du temps, le geste expliqué pour de vrai. Personne ne devrait galérer seul comme moi j'ai galéré.</p>
+        <div class="hero-actions">
+          <a href="scripts.html" class="btn btn-primary">Voir les scripts <i class="ph-bold ph-arrow-right"></i></a>
+          <a href="articles.html" class="btn btn-ghost">Lire les articles</a>
+        </div>
+        <div class="hero-badges">
+          <span><span class="dot"></span>gratuit ou à prix libre</span>
+          <span><span class="dot"></span>PowerShell · réseau · diag</span>
+        </div>
+      </div>
+
+      <!-- Fenêtre terminal (élément signature) -->
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dots"><i></i><i></i><i></i></div>
+          <span class="term-path">~/scripts/ram-check.ps1</span>
+          <button class="term-action run"><i class="ph-fill ph-play"></i> run</button>
+        </div>
+        <div class="term-body">
+          <div class="term-nums"><div>1</div><div>2</div><div>3</div><div>4</div></div>
+<pre class="term-code"><span class="c"># Vérifie la RAM vue par Windows</span>
+<span class="fn">Get-CimInstance</span> Win32_PhysicalMemory |
+  <span class="fn">Select-Object</span> BankLabel, Capacity, Speed |
+  <span class="fn">Format-Table</span> -AutoSize</pre>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================== SECTION 01 — SCRIPTS ====================== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="col">
+        <div class="section-kicker">// 01 <span class="dash">—</span> le produit</div>
+        <h2>Des scripts prêts à l'emploi</h2>
+        <p class="section-intro">Tu copies, tu lances, ça marche. Chacun fait une chose précise et l'explique.</p>
+      </div>
+      <a href="scripts.html" class="section-more">Tous les scripts <i class="ph-bold ph-arrow-right"></i></a>
+    </div>
+
+    <!-- Quand tu auras des scripts, remplace l'état vide ci-dessous par une grille de cartes :
+    <div class="grid-3">
+      <a href="script-NOM.html" class="card script-card">
+        <div class="card-top">
+          <span class="card-icon"><i class="ph ph-terminal-window"></i></span>
+          <span class="tag tag-green brackets">powershell</span>
+        </div>
+        <h3>Nom du script</h3>
+        <p>Ce que fait le script, en une phrase claire.</p>
+        <div class="card-foot">
+          <span class="card-meta">v1.0 · 1.2 ko</span>
+          <span class="card-get"><i class="ph ph-download-simple"></i> Récupérer</span>
+        </div>
+      </a>
+    </div>
+    -->
+    <div class="empty">
+      <i class="ph ph-terminal-window"></i>
+      <strong>Rien de publié pour l'instant.</strong>
+      <p>Les premiers scripts arrivent bientôt.</p>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 02 — ARTICLES ====================== -->
+  <section class="section">
+    <div class="section-head">
+      <div class="col">
+        <div class="section-kicker">// 02 <span class="dash">—</span> comprendre</div>
+        <h2>Des articles qui font le déclic</h2>
+        <p class="section-intro">Pas des cours. Des explications avec l'image qui reste, le geste qu'on refait.</p>
+      </div>
+      <a href="articles.html" class="section-more">Tous les articles <i class="ph-bold ph-arrow-right"></i></a>
+    </div>
+
+    <!-- Quand tu auras des articles, remplace l'état vide par une grille de cartes :
+    <div class="grid-2">
+      <a href="article-NOM.html" class="card article-card">
+        <span class="tag tag-signal brackets">catégorie</span>
+        <h3>Titre de l'article</h3>
+        <p>L'accroche qui donne envie de lire.</p>
+        <div class="card-foot">
+          <span>1 jan. 2026</span><span class="dot"></span><span>8 min</span>
+          <span class="card-arrow"><i class="ph-bold ph-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+    -->
+    <div class="empty">
+      <i class="ph ph-article"></i>
+      <strong>Rien de publié pour l'instant.</strong>
+      <p>Les premiers articles arrivent bientôt.</p>
+    </div>
+  </section>
+
+  <!-- ====================== PROMESSE ====================== -->
+  <section class="promise-wrap">
+    <div class="wrap">
+      <div class="promise">
+        <div class="promise-kicker">// la promesse</div>
+        <p class="promise-text">Tu n'es pas seul, tu n'es pas bête, le problème n'a jamais été toi. On t'a juste mal expliqué et caché les outils. <span class="accent">Moi je te donne tout.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

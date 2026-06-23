@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ▼▼ À PERSONNALISER : titre + description (pour Google et les partages) ▼▼ -->
+<title>Titre de l'article — finistweb.fr</title>
+<meta name="description" content="Le résumé de l'article en une phrase ou deux, pour Google et les partages.">
+<!-- ▲▲ -->
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>cet-article</span></div>
+
+    <header class="article-head">
+      <!-- catégorie : tag-signal | tag-green | tag-amber | tag-neutral -->
+      <span class="tag tag-signal brackets">diagnostic matériel</span>
+      <h1 class="article-title">Titre de l'article : la promesse claire en une phrase</h1>
+      <p class="article-lead">L'accroche : ce que le lecteur va comprendre ou savoir faire après avoir lu. Donne envie, sans survendre.</p>
+      <div class="article-meta">
+        <span>1 janvier 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <!-- ========== Le corps de l'article. Garde ces blocs comme briques. ========== -->
+
+      <p>Premier paragraphe : pose le décor, le problème concret que le lecteur reconnaît tout de suite.</p>
+
+      <p>Deuxième paragraphe : enchaîne. Phrases courtes, ton de grand frère, tutoiement. On explique, on ne récite pas.</p>
+
+      <h2>Un sous-titre qui annonce une idée</h2>
+
+      <p>Texte courant. Tu peux mettre des mots <strong>en gras</strong> pour les points clés, et du <code>code en ligne</code> pour une commande.</p>
+
+      <!-- ENCADRÉ « à retenir » (fond sombre) -->
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Le geste ou l'idée à graver. Court, net, mémorable.</p>
+      </div>
+
+      <h3>Un sous-sous-titre</h3>
+
+      <p>Une liste à puces, quand l'ordre n'a pas d'importance :</p>
+      <ul>
+        <li><strong>Point 1</strong> : l'explication.</li>
+        <li><strong>Point 2</strong> : l'explication.</li>
+        <li><strong>Point 3</strong> : l'explication.</li>
+      </ul>
+
+      <p>Une liste numérotée, pour une procédure dans l'ordre :</p>
+      <ol>
+        <li><strong>Première étape.</strong> Ce qu'on fait, et pourquoi.</li>
+        <li><strong>Deuxième étape.</strong> La suite.</li>
+        <li><strong>Troisième étape.</strong> Et ainsi de suite.</li>
+      </ol>
+
+      <!-- ENCADRÉ « l'image à garder en tête » (analogie) -->
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>L'analogie du quotidien qui fait que ça reste. C'est la signature pédagogique de finistweb.</p>
+      </div>
+
+      <!-- BLOC CODE / TERMINAL (optionnel) -->
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dots"><i></i><i></i><i></i></div>
+          <span class="term-path">exemple.ps1</span>
+          <button class="term-action"><i class="ph ph-copy"></i> copy</button>
+        </div>
+        <div class="term-body">
+          <div class="term-nums"><div>1</div><div>2</div></div>
+<pre class="term-code"><span class="c"># Un commentaire</span>
+<span class="fn">Get-Process</span> | <span class="fn">Sort-Object</span> CPU -Descending</pre>
+        </div>
+      </div>
+
+      <!-- ENCADRÉ « le bon réflexe » (vert) -->
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>L'astuce terrain, la règle à appliquer.</p>
+      </div>
+
+      <!-- ENCADRÉ « attention » (ambre) -->
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Le piège à éviter, dit en une phrase.</p>
+      </div>
+
+      <h2>La conclusion</h2>
+      <p>Referme la boucle. Rappelle l'idée clé, et laisse le lecteur avec un geste concret à faire.</p>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

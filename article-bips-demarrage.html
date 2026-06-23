@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un PC qui bipe au démarrage : décoder ce que la carte mère essaie de te dire — finistweb.fr</title>
+<meta name="description" content="Écran noir, juste des bips. Ce n'est pas Windows, c'est du hardware pur. Apprends à lire ces bips et à diagnostiquer la RAM, du geste le plus simple au plus radical.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>bips-demarrage</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">diagnostic matériel</span>
+      <h1 class="article-title">Un PC qui bipe au démarrage : décoder ce que la carte mère essaie de te dire</h1>
+      <p class="article-lead">Écran noir, juste des bips qui se répètent. Ce n'est pas un caprice, et ce n'est surtout pas Windows. C'est la carte mère qui te parle. Apprends sa langue, et tu diagnostiques en dix secondes ce qui en fait galérer une heure.</p>
+      <div class="article-meta">
+        <span>15 mai 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Tu appuies sur le bouton power. Le PC bipe. Une fois, deux fois, trois fois. Écran noir. Pas de logo, pas de Windows, rien.</p>
+
+      <p>La plupart des gens, à ce moment-là, font une chose. Une seule. Et c'est précisément cette chose qui va leur faire perdre une heure et parfois commander une pièce pour rien. On y revient, promis. Mais avant de savoir quoi faire, il faut comprendre pourquoi ces bips existent. Et là, tout change.</p>
+
+      <h2>Avant de démarrer, le PC passe une visite médicale</h2>
+
+      <p>Imagine que tu ignores complètement ce que sont ces bips. Tu vas tâtonner, changer des trucs au hasard, peut-être remplacer un composant qui marchait très bien. Tout ça parce qu'on ne t'a jamais expliqué le truc le plus important : <strong>quand le PC bipe, Windows n'existe pas encore.</strong></p>
+
+      <p>Voilà ce qui se passe vraiment. Quand tu allumes une machine, elle ne lance pas Windows tout de suite. D'abord, elle fait l'appel. Le processeur est là ? Présent. La mémoire ? Présente. La carte graphique ? Présente. Cette vérification s'appelle le <strong>POST</strong>, pour Power-On Self-Test. C'est la toute première chose qui se passe, avant l'OS, avant tout.</p>
+
+      <p>Si tout répond à l'appel, le POST passe la main à Windows et tu vois ton bureau. Mais s'il manque quelqu'un, le PC a un problème : la carte graphique n'est peut-être pas encore réveillée, donc il ne peut afficher aucun message à l'écran. Alors il prend le seul moyen de communication qui lui reste. Un petit haut-parleur soudé sur la carte mère. Et il bipe.</p>
+
+      <p>Maintenant, le piège. Ton cerveau associe "démarrage" à "Windows qui se lance". C'est naturel, c'est ce que tu vois tous les jours. Sauf que le démarrage commence bien avant l'écran de chargement. Donc quand tu entends des bips et que tu cherches du côté de Windows, tu fouilles une pièce où il n'y a personne.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est un pilote d'avion qui fait sa check-list avant le décollage. Si une case est rouge, pas question de partir. Sauf que ce pilote-là ne peut pas te parler en direct, alors il tape en code Morse sur le tableau de bord. Les bips, c'est ça : du Morse hardware quand l'écran est encore dans le noir.</p>
+      </div>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Des bips au démarrage, c'est <strong>100% du matériel</strong>. Windows n'est même pas entré en scène. Chercher de son côté, c'est interroger un absent.</p>
+      </div>
+
+      <h2>Tous les bips ne parlent pas la même langue</h2>
+
+      <p>Avant de te lancer dans le décodage, il faut que tu saches un truc, sinon tu vas appliquer la mauvaise réponse avec une totale confiance. Le réflexe classique : taper "3 bips au démarrage" sur Google et faire ce que dit le premier résultat. Mauvaise idée.</p>
+
+      <p>Pourquoi ? Parce qu'il n'existe pas un seul langage de bips universel. Chaque fabricant de BIOS a inventé le sien. Trois bips chez l'un ne veulent pas dire la même chose que trois bips chez l'autre. C'est exactement comme si tu lisais une consigne de sécurité sans savoir dans quelle langue elle est écrite.</p>
+
+      <p>Trois grandes familles à connaître :</p>
+
+      <ul>
+        <li><strong>AMI</strong>, le plus répandu sur les cartes mères récentes : des séquences de bips courts</li>
+        <li><strong>Award</strong> : un mélange de bips longs et courts, de moins en moins courant</li>
+        <li><strong>Phoenix</strong> : des bips groupés par séries, séparés par des pauses (par exemple 1-1-3, soit trois groupes distincts)</li>
+      </ul>
+
+      <p>Et par-dessus ça, les machines de marque (Dell, HP, Lenovo) ont souvent leur propre BIOS maison avec leurs codes à eux. Pour celles-là, un seul réflexe : le site du constructeur, jamais une table générique trouvée au hasard.</p>
+
+      <p>Le contre-pied à avoir en tête : on croit toujours qu'un bip est un bip, un signal universel comme un klaxon. En réalité, le même nombre de bips peut signifier "tout va bien" chez un fabricant et "ta mémoire est morte" chez un autre. Un seul bip, par exemple, veut souvent dire POST réussi chez les uns, et erreur chez les autres. Le décoder sans connaître le BIOS, c'est traduire un mot sans connaître la langue.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Pense aux codes couleur des câbles électriques d'un pays à l'autre. Le même fil, la même couleur, mais pas forcément la même fonction selon où tu te trouves. Si tu ne sais pas dans quel pays tu branches, tu lis le schéma de travers. Pareil ici : identifie d'abord la langue, traduis ensuite.</p>
+      </div>
+
+      <h3>Comment savoir quel BIOS tu as</h3>
+
+      <p>Le logo au démarrage te donne déjà une piste. Le modèle exact de la carte mère (ou de la machine, sur un PC de marque) te mène au bon tableau de codes. Sur une bécane Dell, HP ou Lenovo, file directement sur le support du constructeur plutôt que de chercher une table AMI ou Award qui ne s'appliquera pas.</p>
+
+      <p>Petite astuce moderne, et elle peut te sauver : beaucoup de cartes mères récentes ont un afficheur de diagnostic, des LED de debug ou un petit écran à deux chiffres. Un code comme <code>55</code> qui s'affiche, c'est souvent une erreur mémoire. Quand c'est présent, c'est plus précis que les bips. Mais sur le parc de machines un peu anciennes que tu croiseras le plus, les bips restent ton premier signal. Donc tu apprends à les lire, point.</p>
+
+      <h2>Diagnostiquer la RAM : du geste le plus simple au plus radical</h2>
+
+      <p>Maintenant la grande question : si ça bipe pour la mémoire, qu'est-ce que tu fais ? Et c'est ici que se joue la différence entre celui qui résout en cinq minutes et celui qui y passe l'après-midi en commandant une pièce au passage.</p>
+
+      <p>Bonne nouvelle, et elle va à l'encontre de ton intuition. La plupart du temps, quand ça bipe pour la RAM, la RAM n'est pas morte. Elle est juste mal enfichée, ses contacts sont oxydés, ou deux barrettes se tirent la bourre parce qu'elles ne s'entendent pas. La vraie panne physique, celle où il faut vraiment remplacer, c'est l'exception. Pas la règle.</p>
+
+      <p>Voilà le piège, et il est purement dans ta tête. Un bip, ça sonne dramatique. Ça fait alarme. Donc ton cerveau saute direct à la conclusion grave : "la barrette est foutue, j'en commande une." Sauf que la cause numéro un, et de loin, c'est juste un mauvais contact. Un clic qui n'a pas eu lieu. Tu allais dépenser de l'argent et du temps pour résoudre un problème qui se réglait en repositionnant une barrette.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>La cause numéro un, c'est le <strong>mauvais contact ou le slot oxydé</strong>. Commander une barrette neuve sans tester, c'est payer pour un problème qui n'existait pas.</p>
+      </div>
+
+      <p>Donc tu y vas dans l'ordre, du moins risqué au plus radical. Jamais l'inverse :</p>
+
+      <ol>
+        <li><strong>Ré-enficher les barrettes.</strong> Tu débranches tout, tu retires la barrette, tu la replaces jusqu'au clic franc. Dans une majorité de cas, ça suffit. Oui, c'est aussi bête que ça.</li>
+        <li><strong>Tester barrette par barrette.</strong> Tu retires tout sauf une seule barrette, et tu démarres. En faisant ça pour chacune, tu isoles précisément laquelle pose problème.</li>
+        <li><strong>Changer de slot.</strong> Parfois ce n'est pas la barrette, c'est l'emplacement lui-même qui est défectueux ou encrassé. Tu déplaces, tu testes.</li>
+        <li><strong>Nettoyer les contacts.</strong> Un peu d'alcool isopropylique sur un coton-tige, sur les contacts dorés de la barrette. Tu laisses bien sécher avant de remonter.</li>
+        <li><strong>Lancer un test mémoire</strong> si la machine arrive à démarrer, même en mode dégradé. On voit comment juste après.</li>
+      </ol>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme déboguer un câble réseau capricieux. Tu commences par le débrancher et le rebrancher, pas par remplacer le switch. Huit fois sur dix, c'est le geste le plus simple qui règle le problème. Le réflexe "je remplace", c'est l'arme de la fin, pas du début.</p>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>La règle des 3R, à graver : <strong>Ré-enficher, Réduire, Remplacer</strong>. Dans cet ordre, toujours. Si tu commences par la fin, tu paies cher une leçon que la première étape t'aurait donnée gratuitement.</p>
+      </div>
+
+      <h2>Pour tester la RAM, tous les outils ne se valent pas</h2>
+
+      <p>Admettons que la machine démarre. Tu veux tester la mémoire pour de vrai, pas juste à l'instinct. Et là, deux outils reviennent tout le temps. Sauf qu'entre les deux, il y a une différence que beaucoup ignorent, et qui peut te faire passer à côté d'une panne.</p>
+
+      <p>Le premier, <strong>le diagnostic mémoire de Windows</strong> (tu le lances en tapant <code>mdsched</code>). Pratique : intégré, gratuit, rapide. Tu le lances, le PC redémarre et teste. Parfait pour un premier tri. Mais il a une limite, et elle est sournoise.</p>
+
+      <p>Le second, <strong>MemTest86</strong>. Lui, il démarre directement depuis une clé USB, sans système d'exploitation par-dessus, sans pilote, sans rien qui interfère. Il teste la mémoire à nu. C'est plus long, un test complet c'est quelques heures, mais s'il dit que la RAM est bonne, alors elle est vraiment bonne.</p>
+
+      <p>Voilà le retournement, et il est contre-intuitif. On fait naturellement confiance à l'outil Microsoft, parce qu'il est intégré à Windows. Logique, c'est le fabricant du système. Sauf que justement, comme il tourne dans Windows, il peut rater des erreurs subtiles que seul un test fait sans système détecte. L'outil natif te rassure, mais le meilleur test d'un composant se fait sans l'OS au-dessus. Là où tu cherchais une garantie, tu avais en fait un angle mort.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Lance <code>mdsched</code> en premier pour un diagnostic rapide. Si le résultat est clean mais que les écrans bleus ou les freezes continuent, sors MemTest86. C'est le test qui tranche pour de bon.</p>
+      </div>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Vérifier un filet de pêche dans l'eau, ou à sec sur la table. Le diagnostic Windows, c'est dans l'eau : l'OS peut "boucher" certains trous sans que tu les voies. MemTest86, c'est à sec : tous les trous sautent aux yeux, sans exception.</p>
+      </div>
+
+      <p>Un dernier détail qui peut te piéger : <strong>MemTest86+</strong> (avec le petit plus), le fork communautaire historique, n'est plus vraiment maintenu. Prends MemTest86 tout court, celui de Passmark. Le nom se ressemble, le suivi non.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+
+      <p>La théorie c'est bien, mais tu retiens vraiment un truc le jour où tu le fais. Alors voilà comment être prêt avant que ça arrive, plutôt que d'improviser le moment venu :</p>
+
+      <ul>
+        <li><strong>Prépare une clé USB MemTest86 bootable</strong> et garde-la dans ton sac. Quinze minutes à fabriquer une fois, un temps fou gagné après. Tu télécharges depuis le site officiel et tu la flashe sur une clé dédiée.</li>
+        <li><strong>Le jour où un PC bipe ou enchaîne les écrans bleus suspects</strong>, applique la séquence des 3R avant de commander quoi que ce soit. Le réflexe "je remplace" coûte cher pour rien.</li>
+        <li><strong>Sur les machines de marque que tu croises souvent</strong>, prends deux minutes pour noter les deux ou trois codes mémoire les plus fréquents depuis le site du constructeur. La prochaine fois, tu décodes sans chercher, et tu as l'air d'un sorcier.</li>
+      </ul>
+
+      <p>Et quelques limites à connaître, pour ne pas partir dans le décor : si un slot mémoire est physiquement mort, ça veut dire remplacement de la carte mère, ce n'est plus un bricolage de contact. Et le monitoring matériel en continu, c'est de la supervision, pas du dépannage ponctuel. Un test mémoire au moment du problème, c'est largement suffisant.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Un bip impressionne. Il te pousse à commander une barrette neuve dans la seconde. Neuf fois sur dix, c'était juste un clic qui manquait. Garde la tête froide : le bruit est dramatique, la cause est souvent toute bête.</p>
+      </div>
+
+      <p>Et au fait, cette fameuse chose que la plupart des gens font dès qu'un PC bipe, celle dont je te parlais au début ? C'était exactement ça : commander une barrette les yeux fermés. Maintenant tu sais que c'est presque toujours le pire réflexe. Tu fais partie des autres, ceux qui ré-enfichent d'abord.</p>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

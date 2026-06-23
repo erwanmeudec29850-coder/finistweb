@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Batterie laptop qui ne charge plus : l'ordre à respecter avant de commander quoi que ce soit | finistweb.fr</title>
+<meta name="description" content="Un laptop qui ne charge plus, ce n'est pas forcément la batterie. Voici l'ordre exact à suivre pour ne pas commander une pièce inutile, avec la commande Windows qui te donne la vraie réponse en 30 secondes.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>batterie-laptop-charge</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">diagnostic matériel</span>
+      <h1 class="article-title">Batterie laptop qui ne charge plus : l'ordre à respecter avant de commander quoi que ce soit</h1>
+      <p class="article-lead">Un laptop débranché qui s'éteint en deux minutes, tout le monde accuse la batterie direct. Sauf que dans la majorité des cas, le vrai coupable se teste en trente secondes, sans rien démonter. Encore faut-il savoir où regarder en premier.</p>
+      <div class="article-meta">
+        <span>22 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un laptop qui "ne charge plus". Le réflexe naturel, c'est de penser batterie morte, de l'ouvrir, de chercher une référence, de commander la pièce. Sauf qu'il y a un ordre à respecter, et si tu le sautes, tu vas commander un truc qui ne réglera rien. Il existe une commande qui te donne la réponse exacte en moins d'une minute. Tu vas voir où elle se cache, et pourquoi presque personne ne commence par là.</p>
+
+      <h2>Pourquoi tu ne dois jamais commencer par soupçonner la batterie</h2>
+      <p>Avant de toucher à quoi que ce soit, pense au trajet que fait le courant. Ça part de la prise murale, ça passe par l'adaptateur, ça traverse le connecteur, ça arrive sur la carte mère, et ça finit sur la batterie. Si la charge ne se fait pas, le problème peut se situer n'importe où sur ce trajet. Et le début de la chaîne, c'est justement ce qu'on oublie de vérifier en premier, alors que c'est le plus simple à tester.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Une ampoule qui ne s'allume pas chez toi. Tu ne commences pas par dévisser l'ampoule pour la remplacer. Tu vérifies d'abord le disjoncteur, puis la prise, et seulement après tu regardes l'ampoule elle-même. Pour une batterie, c'est exactement la même logique : tu remontes la chaîne depuis le début, jamais depuis la fin.</p>
+      </div>
+
+      <p>Ton cerveau te dit : "ça ne charge pas, donc la batterie est morte." En réalité, l'adaptateur tombe en panne aussi souvent que la batterie, et lui se teste en trente secondes avec un autre chargeur compatible. Sauter cette étape, c'est se condamner à commander une pièce sans savoir si c'est elle qui est en cause.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Avant de soupçonner la batterie, teste toujours l'adaptateur avec un autre modèle compatible. C'est gratuit, ça prend trente secondes, et ça élimine la cause la plus fréquente.</p>
+      </div>
+
+      <h2>La radio que Windows fait à ta batterie sans que tu le saches</h2>
+      <p>Une fois l'adaptateur écarté, tu as besoin de savoir dans quel état est réellement la batterie. Pas une impression, un chiffre. Et Windows garde ce chiffre depuis le premier jour d'utilisation de la machine, sans jamais te le montrer spontanément.</p>
+
+      <p>Il existe une commande qui sort un rapport complet de santé de la batterie, sous forme de page web lisible dans n'importe quel navigateur. Elle s'appelle <code>powercfg /batteryreport</code>. Elle existe depuis longtemps, elle est native, et la plupart des gens ne l'ont jamais tapée une seule fois.</p>
+
+      <ol>
+        <li><strong>Ouvre PowerShell ou l'invite de commandes en administrateur.</strong> Sans les droits admin, le rapport ne se génère pas.</li>
+        <li><strong>Tape la commande avec un chemin de sortie explicite :</strong> <code>powercfg /batteryreport /output "C:\battery-report.html"</code>. Sans préciser <code>/output</code>, le fichier part dans un dossier que tu ne retrouveras jamais facilement.</li>
+        <li><strong>Ouvre le fichier HTML généré dans un navigateur.</strong> Tu y trouveras deux lignes essentielles : la capacité de conception (celle d'origine, à la sortie d'usine) et la capacité de charge complète actuelle.</li>
+        <li><strong>Calcule le ratio entre les deux.</strong> Capacité actuelle divisée par capacité d'origine. En dessous de 80 %, la batterie est en fin de vie notable. En dessous de 60 %, le remplacement devient urgent.</li>
+      </ol>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est le carnet de santé de la batterie. Comme un carnet pédiatrique qui suit une courbe de croissance depuis la naissance, ce rapport suit la dégradation de la batterie depuis son premier jour. Tu compares la courbe d'aujourd'hui à la norme attendue, et tu vois immédiatement si quelque chose dérape.</p>
+      </div>
+
+      <h2>Le chiffre des 500 cycles que tout le monde répète, et qui ne dit pas grand-chose</h2>
+      <p>Tu as sûrement déjà entendu cette règle : une batterie tient environ 500 cycles de charge avant de devenir vraiment mauvaise. C'est une indication issue de la chimie lithium-ion, pas une loi gravée dans le silicium. Et s'arrêter à ce chiffre peut te faire annoncer un diagnostic faux.</p>
+
+      <p>Ton cerveau aime les seuils nets : 499 cycles, batterie encore correcte. 501 cycles, batterie foutue. La réalité ne fonctionne pas comme ça. La dégradation d'une batterie lithium-ion est progressive, pas binaire, et elle dépend énormément de la chaleur subie et de la qualité de fabrication. Une batterie premium peut dépasser 1000 cycles sans broncher, une batterie générique peut s'effondrer après 200.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Ne jamais te fier au seul compteur de cycles pour juger l'état d'une batterie. Le champ peut même apparaître vide dans le rapport sans que ça signifie une panne : certains firmwares ne remontent simplement pas cette information à Windows. Le ratio capacité actuelle / capacité d'origine reste la seule donnée vraiment fiable.</p>
+      </div>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Deux coureurs lâchés sur un marathon. Le premier s'imagine qu'il existe une ligne à 500 mètres où tout s'arrête net. Le second sait que la fatigue s'installe progressivement, kilomètre après kilomètre. Une batterie, c'est le second coureur : pas de mur, une pente.</p>
+      </div>
+
+      <p>Le chiffre 500 n'est pas une ligne d'arrivée. C'est un repère kilométrique parmi d'autres, posé là pour donner un ordre d'idée, pas un verdict.</p>
+
+      <h2>Le signal qui doit te faire tout arrêter immédiatement</h2>
+      <p>Il y a un cas où l'ordre du diagnostic change complètement, et où la priorité n'est plus de comprendre, mais de sécuriser. Si le châssis du laptop est déformé, gonflé, ou que la batterie semble "bailler" sous le clavier, tu n'es plus dans un problème de performance. Tu es dans un problème de sécurité.</p>
+
+      <p>Une batterie lithium-ion qui gonfle produit du gaz à l'intérieur de ses cellules. C'est le signe d'une dégradation chimique avancée, et le risque d'embrasement spontané est réel, sans avertissement supplémentaire avant que ça arrive.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>"Ça gonfle un peu, mais ça charge encore, ça peut attendre la fin de la semaine." Faux raisonnement, dangereux. Une batterie gonflée ne s'annonce pas avant de s'enflammer. Il n'y a pas de version "un peu gonflée, ça va". Stop immédiat, dans tous les cas.</p>
+      </div>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Une batterie qui fait du bodybuilding. Des muscles qui gonflent, c'est valorisant chez un athlète. Sur une batterie, c'est une alarme incendie qui n'a pas encore sonné.</p>
+      </div>
+
+      <p>Le protocole est simple et non négociable : ne pas allumer la machine, ne pas la percer ni la comprimer, l'isoler dans un endroit non inflammable, et l'orienter vers une filière de collecte adaptée aux déchets électroniques.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Tu commences toujours par tester un autre adaptateur</strong> compatible. C'est gratuit, rapide, et ça élimine la cause la plus fréquente.</li>
+        <li><strong>Tu inspectes le connecteur de charge</strong> à la recherche de broches pliées, d'oxydation ou de poussière, avec de l'air comprimé et de l'alcool isopropylique si nécessaire.</li>
+        <li><strong>Tu lances le rapport batterie</strong> avec <code>powercfg /batteryreport /output "C:\battery-report.html"</code> et tu notes le ratio capacité actuelle / capacité d'origine.</li>
+        <li><strong>Si le ratio est correct mais que ça ne charge toujours pas</strong>, tu réinstalles le pilote de batterie depuis le Gestionnaire de périphériques, sans cocher l'option qui supprime le pilote.</li>
+        <li><strong>Tu vérifies le BIOS</strong> : la batterie est-elle détectée, les paramètres d'alimentation sont-ils cohérents.</li>
+        <li><strong>Si le châssis est gonflé</strong>, tu sautes toutes les étapes précédentes et tu passes directement au protocole de sécurité.</li>
+      </ul>
+
+      <p>Tu te souviens du trajet du courant qu'on a posé au début : prise, adaptateur, connecteur, carte mère, batterie. Chaque étape de ce protocole suit exactement cet ordre, dans le même sens. Une fois que tu as ce trajet en tête, tu ne testes plus au hasard : tu remontes une chaîne, et tu t'arrêtes dès que tu trouves le maillon cassé. C'est ça, la différence entre deviner et diagnostiquer.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options" target="_blank" rel="noopener noreferrer">Microsoft Learn : options de la commande powercfg</a></li>
+        <li><a href="https://support.microsoft.com/en-us/windows/caring-for-your-battery-in-windows-2db3e37f-5e7d-488e-9086-ed15320519e4" target="_blank" rel="noopener noreferrer">Microsoft Support : entretien de la batterie sous Windows</a></li>
+        <li><a href="https://www.batteryuniversity.com/article/bu-808-how-to-prolong-lithium-based-batteries/" target="_blank" rel="noopener noreferrer">Battery University : prolonger la durée de vie des batteries lithium-ion</a></li>
+        <li><a href="https://www.cpsc.gov/Safety-Education/Safety-Education-Centers/Battery-Safety" target="_blank" rel="noopener noreferrer">CPSC : sécurité des batteries lithium et lithium-ion</a></li>
+      </ul>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

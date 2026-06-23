@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Écran bleu : pourquoi tout le monde panique et pourquoi il ne faut pas — finistweb.fr</title>
+<meta name="description" content="Un BSOD fait peur, mais Windows te laisse un rapport complet à chaque crash. Voici comment lire le stop code, le minidump, et trouver le vrai coupable sans réinstaller l'OS.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>écran-bleu-bsod</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système & windows</span>
+      <h1 class="article-title">Écran bleu : pourquoi tout le monde panique, et pourquoi il ne faudrait pas</h1>
+      <p class="article-lead">Un PC qui crashe en bleu a l'air d'annoncer la fin du monde. En réalité, Windows passe les dernières millisecondes avant le crash à t'écrire un rapport complet. La plupart des gens l'ignorent et réinstallent direct. Toi, tu vas savoir où il se cache.</p>
+      <div class="article-meta">
+        <span>22 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un écran bleu, ça fait toujours le même effet : le cœur qui descend d'un cran, l'utilisateur qui appelle en mode panique, et ce réflexe presque universel de vouloir tout réinstaller pour "repartir propre". Sauf qu'à l'instant exact où ton écran devient bleu, ta machine fait quelque chose que personne ne t'a jamais montré. Elle écrit un rapport. Un vrai. Avec le nom du coupable dedans, la plupart du temps. Le problème, ce n'est pas que l'info n'existe pas. C'est que personne ne va la chercher au bon endroit.</p>
+
+      <h2>Pourquoi le bleu te fait croire que c'est grave</h2>
+      <p>Si Windows continuait à tourner après une erreur grave, il risquerait d'écrire n'importe quoi sur ton disque, de corrompre tes fichiers, ou pire, de continuer à donner des ordres à du matériel dans un état incohérent. Le BSOD n'est pas une panne. C'est un frein d'urgence. Windows préfère s'arrêter brutalement plutôt que de continuer à tourner avec une info fausse en mémoire.</p>
+      <p>Ton cerveau, lui, ne fait pas cette distinction. Il voit un écran qui devient bleu d'un coup, du texte qu'il ne comprend pas, un redémarrage forcé — et il classe ça dans la catégorie "catastrophe matérielle". C'est exactement l'inverse de ce qui se passe la plupart du temps.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Le BSOD, c'est une alarme incendie. Elle te dit qu'il y a un feu, fort et clair. Elle ne te dit pas dans quelle pièce. Beaucoup de gens s'arrêtent à l'alarme et paniquent. Toi, tu vas directement chercher la pièce.</p>
+      </div>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>La majorité des BSOD ne viennent pas d'une pièce matérielle cassée, mais d'un driver tiers qui a fait une erreur que personne n'a rattrapée.</p>
+      </div>
+
+      <h2>Le stop code, ou pourquoi noter avant d'agir</h2>
+      <p>Avant même de toucher au clavier, il y a une habitude à prendre : noter le code qui s'affiche en haut de l'écran bleu. Ce code n'est pas un message d'erreur générique inventé au hasard — il est standardisé par Microsoft, et chaque code correspond à une famille de problème précise. <code>IRQL_NOT_LESS_OR_EQUAL</code> ne raconte pas la même histoire que <code>PAGE_FAULT_IN_NONPAGED_AREA</code> ou que <code>CRITICAL_PROCESS_DIED</code>. Sans ce code, tu cherches au hasard dans toute la maison. Avec lui, tu sais déjà dans quel couloir regarder.</p>
+      <p>Pas besoin de le mémoriser par cœur. Juste de réflexe le noter — en photo, en screenshot, peu importe — avant que l'écran ne disparaisse et ne redémarre tout seul.</p>
+
+      <h2>Le minidump : la boîte noire que personne ne va chercher</h2>
+      <p>Voici le retournement qui change tout : tu penses que le crash a tout effacé. En réalité, dans la fraction de seconde avant l'arrêt, Windows écrit un fichier dans <code>C:\Windows\Minidump\</code>. Ce fichier contient l'état exact de la mémoire au moment du crash, et très souvent, le nom du driver fautif en toutes lettres.</p>
+      <p>Ton intuition dit : l'écran a planté, tout est perdu. La réalité dit : Windows a pris le temps, dans son agonie, de te laisser un témoignage écrit. La majorité des gens ne savent même pas que ce dossier existe.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est la boîte noire d'un avion. L'avion s'écrase, mais la boîte noire survit et raconte exactement ce qui s'est passé, dans l'ordre, avec le composant responsable. Le minidump fait pareil pour ta machine.</p>
+      </div>
+
+      <p>Pour lire ce fichier sans devenir ingénieur système, deux outils gratuits et portables font le travail : <strong>WhoCrashed</strong>, qui te donne directement le nom du driver coupable en langage humain, et <strong>BlueScreenView</strong>, qui liste l'historique de tous tes crashs avec le module impliqué pour chacun. Pas d'installation, pas de configuration — tu lances, tu lis.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Avant de croire qu'il n'y a pas de minidump, vérifie deux choses : que la génération du dump est activée (Paramètres système avancés → Démarrage et récupération → Petit dump mémoire) et que le disque a assez de place pour l'écrire. Un disque plein peut empêcher Windows d'écrire son propre témoignage.</p>
+      </div>
+
+      <h2>Le driver : ce chirurgien qui n'a pas le droit à l'erreur</h2>
+      <p>Pourquoi un simple pilote graphique ou un antivirus peut-il faire tomber tout le système, alors qu'un logiciel classique qui plante se contente de se fermer tout seul ? Parce qu'un driver tourne en mode noyau — il a les pleins pouvoirs sur la machine. Une appli classique, elle, tourne en mode utilisateur, avec des barrières de sécurité autour. Si elle plante, Windows referme juste la fenêtre. Si un driver plante, il n'y a personne au-dessus pour le rattraper.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Un logiciel normal, c'est un médecin généraliste qui se trompe : la consultation est annulée, rien de grave. Un driver, c'est un chirurgien en train d'opérer à cœur ouvert. La moindre erreur, et il n'y a pas de session suivante.</p>
+      </div>
+
+      <p>C'est pour ça que les BSOD récurrents pointent si souvent vers les mêmes suspects : pilote graphique mal mis à jour, antivirus tiers trop intrusif, logiciel de virtualisation. Pas vers la carte mère qui se "fatigue".</p>
+
+      <h2>Mode sans échec : le test qui tranche sans hésiter</h2>
+      <p>Une fois que tu as un nom de driver suspect, comment être sûr avant d'agir ? Le mode sans échec démarre Windows avec le strict minimum — drivers Microsoft uniquement, rien de tiers, rien au démarrage. Si le BSOD ne revient pas dans ce mode, le coupable est forcément l'un des trucs qu'on a retirés. S'il revient même là, le problème est ailleurs : matériel, ou driver système lui-même.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est démarrer la voiture en mode dégradé : moteur seul, pas de clim, pas d'options. Si le bruit bizarre disparaît, il venait d'une option. S'il reste, c'est le moteur — pas la peine de chercher ailleurs.</p>
+      </div>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Stable en mode sans échec → driver tiers. BSOD même en mode sans échec → matériel ou driver système. Il n'y a pas de troisième cas.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Oublie F8 au démarrage — ça ne marche plus depuis Windows 8. Le mode sans échec se déclenche maintenant via Shift + Redémarrer depuis l'écran de connexion, ou via <code>msconfig</code>. Et si WhoCrashed pointe vers <code>ntoskrnl.exe</code> ou <code>hal.dll</code>, ce n'est pas un vrai coupable : c'est le noyau Windows lui-même qui encaisse le coup d'un problème matériel. Là, direction RAM et disque, pas Google.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Note le stop code</strong> dès qu'il apparaît, avant qu'il ne disparaisse au redémarrage.</li>
+        <li><strong>Va voir <code>C:\Windows\Minidump\</code></strong> et lance WhoCrashed ou BlueScreenView en version portable, zéro installation.</li>
+        <li><strong>Identifie le driver pointé</strong> — si c'est un nom générique style ntoskrnl.exe, ce n'est pas le vrai coupable, passe direct à la piste matérielle.</li>
+        <li><strong>Teste en mode sans échec</strong> (Shift + Redémarrer) pour confirmer si c'est logiciel ou matériel avant de toucher à quoi que ce soit.</li>
+        <li><strong>Stable en mode sans échec :</strong> rollback ou désinstallation du driver identifié. <strong>BSOD persiste :</strong> test RAM et disque avant de conclure.</li>
+        <li><strong>Ne réinstalle jamais Windows en premier réflexe</strong> — ça efface le dump et masque la vraie cause, qu'elle soit logicielle ou matérielle.</li>
+      </ul>
+
+      <p>La prochaine fois qu'un écran bleu te tombe dessus, l'alarme incendie sonnera pareil. Mais tu ne resteras plus planté devant à écouter le bruit : tu sauras déjà où aller chercher la pièce qui brûle. C'est toute la différence entre subir un BSOD et en faire un diagnostic de cinq minutes.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://docs.microsoft.com/fr-fr/windows-hardware/drivers/debugger/bug-check-code-reference2" target="_blank" rel="noopener noreferrer">Microsoft Docs — Référence des bug check codes</a></li>
+        <li><a href="https://docs.microsoft.com/fr-fr/windows/client-management/generate-kernel-or-complete-crash-dump" target="_blank" rel="noopener noreferrer">Microsoft Docs — Configurer la génération de minidump</a></li>
+        <li><a href="https://www.nirsoft.net/utils/blue_screen_view.html" target="_blank" rel="noopener noreferrer">NirSoft — BlueScreenView</a></li>
+        <li><a href="https://docs.microsoft.com/fr-fr/windows-hardware/drivers/gettingstarted/user-mode-and-kernel-mode" target="_blank" rel="noopener noreferrer">Microsoft Docs — Mode noyau vs mode utilisateur</a></li>
+        <li><a href="https://support.microsoft.com/fr-fr/windows/demarrer-votre-pc-en-mode-sans-echec-dans-windows-92c27cff-db89-8644-1ce4-b3e5e56fe234" target="_blank" rel="noopener noreferrer">Microsoft — Démarrer Windows en mode sans échec</a></li>
+      </ul>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-text"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// à emporter</div>
+          <strong>Checklist BSOD — 6 étapes, imprimable</strong>
+          <p>Les 6 réflexes dans l'ordre, avec l'embranchement logiciel/matériel. À garder à portée ou à envoyer à quelqu'un en panique.</p>
+          <a href="{{LIEN_RESSOURCE}}" class="btn btn-dl" target="_blank" rel="noopener">Télécharger — gratuit</a>
+        </div>
+      </div>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>

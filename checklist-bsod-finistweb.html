@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist BSOD — finistweb.fr</title>
+<style>
+  /* ===== IMPRESSION ===== */
+  @page {
+    size: A4;
+    margin: 20mm 18mm 18mm 18mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    color: #1a1209;
+    background: #faf8f4;
+    padding: 32px 28px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* En-tête */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #c0392b;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+  }
+  .brand { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; color: #1a1209; }
+  .brand .pfx { color: #c0392b; }
+  .title-block h1 { font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+  .title-block p { font-size: 12px; color: #6b5a45; }
+
+  /* Intro */
+  .intro {
+    background: #f0ebe3;
+    border-left: 3px solid #c0392b;
+    padding: 10px 14px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    color: #3d2c1a;
+    line-height: 1.55;
+  }
+
+  /* Étapes */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .step-num {
+    counter-increment: step;
+    min-width: 28px;
+    height: 28px;
+    background: #c0392b;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-body { flex: 1; }
+  .step-body strong { font-size: 13px; display: block; margin-bottom: 2px; }
+  .step-body span { font-size: 12px; color: #4a3728; line-height: 1.5; }
+  .step-body code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #e8e2d8;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    color: #1a1209;
+  }
+
+  /* Checkbox */
+  .check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #9e8070;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* Embranchement */
+  .fork {
+    background: #f5f1eb;
+    border: 1.5px solid #c8b8a2;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+  .fork-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7a5c42; margin-bottom: 10px; }
+  .fork-row { display: flex; gap: 14px; }
+  .fork-case {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .fork-ok { background: #e8f5e9; border-left: 3px solid #388e3c; }
+  .fork-ko { background: #fff3e0; border-left: 3px solid #e65100; }
+  .fork-case strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .fork-ok strong { color: #2e7d32; }
+  .fork-ko strong { color: #bf360c; }
+
+  /* Alerte */
+  .alert {
+    background: #fff8e1;
+    border: 1.5px solid #ffc107;
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #4a3000;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .alert strong { display: block; margin-bottom: 3px; }
+
+  /* Footer */
+  .footer {
+    border-top: 1.5px solid #ddd5c8;
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #9e8070;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .intro { background: #f5f5f5; }
+    .fork { background: #f9f9f9; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand"><span class="pfx">~/</span>finistweb.fr</div>
+    <div class="title-block">
+      <h1>Checklist BSOD</h1>
+      <p>Diagnostiquer un écran bleu en 6 étapes, sans réinstaller Windows</p>
+    </div>
+  </div>
+
+  <div class="intro">
+    À utiliser dès qu'un BSOD apparaît. Dans l'ordre, sans en sauter. Le but : identifier le coupable en moins de 5 minutes, pas réinstaller à l'aveugle.
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="check"></div>
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Prends en photo le stop code</strong>
+        <span>Le code affiché en haut de l'écran bleu (<code>IRQL_NOT_LESS_OR_EQUAL</code>, <code>PAGE_FAULT_IN_NONPAGED_AREA</code>…). Il disparaît au redémarrage. En photo, peu importe — c'est le point de départ.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="check"></div>
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Ouvre le dossier Minidump</strong>
+        <span>Chemin : <code>C:\Windows\Minidump\</code>. Ce dossier contient un fichier par crash. S'il est vide, vérifie que la génération du dump est activée : Paramètres système avancés → Démarrage et récupération → Petit dump mémoire.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="check"></div>
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Lance WhoCrashed ou BlueScreenView</strong>
+        <span>Les deux sont portables — zéro installation. WhoCrashed donne le nom du driver coupable en langage humain. BlueScreenView liste l'historique de tous les crashs. Télécharge l'un ou l'autre, lance, lis.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="check"></div>
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Lis le driver pointé — attention au piège</strong>
+        <span>Si l'outil pointe vers <code>ntoskrnl.exe</code> ou <code>hal.dll</code> : ce n'est pas le vrai coupable. C'est le noyau Windows qui encaisse un problème matériel. Dans ce cas, passe directement à la piste RAM/disque (étape 6).</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="check"></div>
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Teste en mode sans échec</strong>
+        <span>Shift + Redémarrer depuis l'écran de connexion. Pas F8 — ça ne fonctionne plus depuis Windows 8. En mode sans échec, Windows démarre avec les drivers Microsoft uniquement, rien de tiers.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="fork">
+    <div class="fork-title">Résultat du test en mode sans échec</div>
+    <div class="fork-row">
+      <div class="fork-case fork-ok">
+        <strong>Stable en sans échec</strong>
+        Rollback ou désinstallation du driver identifié à l'étape 3–4. Le problème est logiciel.
+      </div>
+      <div class="fork-case fork-ko">
+        <strong>BSOD même en sans échec</strong>
+        Le problème est matériel ou dans un driver système. Passe aux tests RAM et disque avant de conclure.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="check"></div>
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <strong>Ne réinstalle pas Windows en premier réflexe</strong>
+      <span>Réinstaller efface le dossier Minidump et masque la vraie cause — qu'elle soit logicielle ou matérielle. Ce n'est jamais la première étape.</span>
+    </div>
+  </div>
+
+  <div class="alert" style="margin-top:20px;">
+    <strong>À vérifier si aucun minidump n'est généré</strong>
+    Paramètres → Système → Informations système → Paramètres système avancés → Démarrage et récupération → choisir « Petit dump mémoire (256 Ko) ». Et vérifier que le disque a de la place libre — un disque plein empêche Windows d'écrire le rapport.
+  </div>
+
+  <div class="footer">
+    <span>finistweb.fr — libre de diffusion, fais-en ce que tu veux</span>
+    <span>par Erwan Meudec · technicien IT</span>
+  </div>
+
+</body>
+</html>
