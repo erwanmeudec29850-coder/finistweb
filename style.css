@@ -340,6 +340,21 @@ code { font-family: var(--font-mono); font-size: .86em; }
 .articles-empty .em-prefix { color: var(--accent); }
 .card-hidden { display: none !important; }
 
+/* ---- À la une + sections catégorie ---- */
+.featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cat-section { margin-bottom: 48px; }
+.cat-section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.cat-section-head-label { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); letter-spacing: .04em; }
+.cat-section-head-count { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); opacity: .55; }
+.cat-section-head-note { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); opacity: .55; }
+
+/* ---- Cartes compactes ---- */
+.compact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.compact-card { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--r-lg); text-decoration: none; transition: border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease); box-shadow: var(--shadow-xs); }
+.compact-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.compact-card h4 { font-size: var(--fs-sm); font-weight: 600; line-height: 1.4; margin: 0; color: var(--text-strong); }
+.compact-card .compact-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
 /* Sidebar */
 .articles-sidebar { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 16px; }
 .sb-block { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; }
@@ -363,6 +378,8 @@ code { font-family: var(--font-mono); font-size: .86em; }
   :root { --gutter: 1.375rem; }
   .hero-grid { grid-template-columns: 1fr; gap: 36px; padding: 48px var(--gutter) 56px; }
   .hero-portrait { display: none; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .compact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .promise { padding: 36px 28px; }
   .nav-menu { gap: 2px; }
