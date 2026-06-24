@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>« Compte verrouillé » sur un lecteur réseau : le coupable n'est presque jamais humain · finistweb.fr</title>
+<meta name="description" content="Un lecteur réseau qui affiche soudain « compte verrouillé », sans que personne n'ait touché à rien. La cause se cache dans un détail de syntaxe que personne ne regarde, et les journaux Windows la prouvent en deux minutes.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>lecteur-reseau-compte-verrouille</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">réseau</span>
+      <h1 class="article-title">« Compte verrouillé » sur un lecteur réseau : le coupable n'est presque jamais celui qu'on accuse</h1>
+      <p class="article-lead">Un matin, un lecteur réseau refuse de s'ouvrir. Le message dit « compte verrouillé ». Le réflexe, c'est de penser à un mot de passe oublié ou à un piratage. Sauf que dans la majorité des cas, c'est ta propre machine qui a verrouillé le compte toute seule, en boucle, sans que personne ne tape rien. Et la preuve est écrite noir sur blanc dans un journal que tu as déjà.</p>
+      <div class="article-meta">
+        <span>24 juin 2026</span><span class="dot"></span><span>9 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Le scénario revient souvent en intervention, presque toujours avec la même phrase d'accueil : « je n'ai rien touché ». Un lecteur réseau (un Z:, un Y:, peu importe la lettre) qui s'ouvrait sans problème hier, et qui ce matin affiche un message du genre <em>« Z:\ n'est pas accessible. Le compte référencé est actuellement verrouillé »</em>. Premier réflexe humain : quelqu'un a tapé le mauvais mot de passe trois fois, ou pire, quelqu'un d'autre essaie de rentrer. Les deux pistes sont raisonnables. Les deux sont presque toujours fausses. Et il y a un détail technique, minuscule, presque ridicule une fois qu'on le voit, qui explique 90 % de ces verrouillages. On y revient à la fin, parce qu'il vaut le détour.</p>
+
+      <h2>Pourquoi ton cerveau accuse un humain en premier</h2>
+      <p>Un compte qui se verrouille, dans l'imaginaire collectif, c'est forcément quelqu'un qui s'est trompé en tapant, ou quelqu'un de malveillant qui teste des mots de passe au hasard. C'est la lecture la plus naturelle, parce que c'est celle qui correspond à ce qu'on connaît : un humain devant un clavier. Le problème, c'est que les comptes utilisés pour mapper des lecteurs réseau ne sont presque jamais tapés à la main une fois la configuration en place. Une fois que Windows a le mot de passe, il s'en sert sans rien demander, à chaque connexion, des dizaines de fois par jour.</p>
+      <p>Et c'est précisément cette automatisation invisible qui devient le problème quand le mot de passe enregistré n'est plus le bon. Windows ne le sait pas. Il retente, encore et encore, exactement comme s'il tapait au clavier, sauf qu'il le fait toutes les quelques secondes, sans jamais se lasser.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est un digicode qu'on a reprogrammé avec un mauvais code, et un visiteur qui continue à composer l'ancien code toutes les dix secondes parce que personne ne l'a prévenu du changement. Au bout d'un moment, la porte se bloque. Le visiteur n'a rien fait de méchant. Il répète juste un geste devenu faux.</p>
+      </div>
+
+      <h2>Le journal qui dit la vérité avant toi</h2>
+      <p>Avant de soupçonner qui que ce soit, il existe un endroit qui ne ment jamais : l'Observateur d'événements Windows, journal Sécurité, à la recherche de l'identifiant <strong>4625</strong>, un échec de connexion. Sur une machine concernée par ce genre de souci, ce filtre fait souvent apparaître des centaines d'occurrences, parfois plusieurs par minute.</p>
+      <p>Le détail qui tranche, c'est le rythme. Une personne qui se trompe en tapant un mot de passe le fait une fois, relit, retape, peut-être trois fois en une minute avant d'abandonner ou de réussir. Une machine qui retente toute seule le fait toutes les quelques secondes, jour et nuit, avec une régularité presque parfaite. Cette régularité métronomique est la signature d'un processus automatique, jamais d'une saisie humaine. Le champ qui indique le nom de la station d'origine confirme en plus quelle machine précise est en train de marteler le compte.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Une rafale d'échecs très régulière dans le temps = un script ou une tâche planifiée qui boucle. Des échecs espacés et irréguliers = plutôt une vraie personne qui galère à se rappeler son mot de passe.</p>
+      </div>
+
+      <h2>Le coffre où Windows planque les mots de passe</h2>
+      <p>Pour comprendre comment un mot de passe peut être « faux » sans que personne ne l'ait changé, il faut savoir où Windows le range. Il existe un coffre intégré, le Gestionnaire d'identification, accessible en tapant <code>control /name Microsoft.CredentialManager</code>, ou en ligne de commande avec <code>cmdkey /list</code>. C'est là que Windows stocke, de façon chiffrée, les couples identifiant/mot de passe pour les ressources réseau, exactement comme il le fait pour un mot de passe Wi-Fi.</p>
+      <p>Tant que ce coffre contient le bon mot de passe, tout est invisible et fluide : le lecteur s'ouvre sans rien demander. Le jour où le mot de passe stocké ne correspond plus au mot de passe réel du compte côté serveur, le coffre continue de répondre présent, il donne juste la mauvaise réponse, en boucle, sans jamais prévenir qu'il a tort.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Le coffre Windows, c'est un majordome qui connaît le code de la porte par cœur et l'annonce à ta place chaque fois que tu arrives. S'il a appris le mauvais code un jour, il continue à l'annoncer fièrement, persuadé d'avoir raison, jusqu'à ce que quelqu'un le corrige.</p>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Avec <code>cmdkey /list</code>, vérifie qu'il n'existe pas deux entrées pour le même serveur, une sous son adresse IP et une sous son nom réseau. Windows les traite comme deux identités différentes. Supprimer une seule des deux ne sert à rien si l'autre garde le mauvais mot de passe : il faut nettoyer les deux avant de recréer le mappage.</p>
+      </div>
+
+      <h2>Le retournement : la vraie cause n'est presque jamais un mot de passe changé</h2>
+      <p>Voilà l'endroit où la plupart des gens se trompent de piste, et où la boucle ouverte du début se referme. On pourrait croire que pour avoir un mot de passe « faux » dans le coffre, il a fallu que quelqu'un change le mot de passe réel côté serveur, ou se trompe en le saisissant la première fois. Dans énormément de cas, rien de tout ça ne s'est produit. Le mot de passe réel n'a jamais bougé. C'est la façon dont il a été <em>enregistré</em> dans le coffre qui était fausse depuis le début, et personne ne l'a vu, parce que ça ne provoque aucune erreur visible au moment où on l'enregistre.</p>
+      <p>Le piège classique : enregistrer un mot de passe via une commande automatisée (souvent dans un script ou une tâche planifiée pensée pour éviter à l'utilisateur de ressaisir son mot de passe à chaque connexion), sans entourer ce mot de passe de guillemets quand il contient un espace. La commande ne lit alors que les caractères jusqu'au premier espace rencontré ; tout ce qui suit est traité comme un argument séparé, et silencieusement ignoré. Le mot de passe stocké est donc tronqué, différent du vrai, mais sans le moindre message d'erreur pour le signaler. La machine est persuadée d'avoir bien fait son travail. Elle a juste appris une version coupée de la vérité, et la répète fidèlement, échec après échec, jusqu'au verrouillage.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>N'importe quel mot de passe contenant un espace (ou même un caractère spécial mal interprété par l'invite de commande) doit être entouré de guillemets dans une commande automatisée. Sans ça, la troncature est totalement silencieuse : aucune erreur ne s'affiche au moment de l'enregistrement, le problème n'apparaît que plus tard, sous forme de verrouillage de compte.</p>
+      </div>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme dicter une adresse postale à quelqu'un qui s'arrête d'écrire au premier espace. Tu dis « 12 rue de la Mairie », il note juste « 12 ». Le facteur ne livrera jamais à la bonne adresse, et pourtant personne n'a fait d'erreur de lecture, c'est la dictée elle-même qui s'est arrêtée trop tôt.</p>
+      </div>
+
+      <h2>Pourquoi ça finit en verrouillage de compte côté serveur</h2>
+      <p>Un mot de passe faux qui rate une fois, ce n'est presque jamais grave : la plupart des politiques de sécurité tolèrent quelques échecs avant de réagir. Le problème, c'est la répétition automatique. Une tâche planifiée ou un script qui se relance régulièrement avec ce mot de passe tronqué va échouer encore, et encore, et encore, jusqu'à dépasser le seuil de tentatives ratées que le serveur tolère pour ce compte. À ce moment-là, le serveur fait exactement ce qu'on lui a demandé de faire : il protège le compte en le bloquant. Sauf que la vraie menace n'a jamais existé. C'est une machine bien intentionnée, configurée avec un petit défaut de syntaxe, qui a fini par se faire bannir de chez elle.</p>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Avant tout, va voir l'Observateur d'événements</strong> (journal Sécurité, ID 4625) et regarde le rythme des échecs et la station d'origine. Ça te dit en trente secondes si c'est humain ou automatique.</li>
+        <li><strong>Vérifie le coffre</strong> avec <code>cmdkey /list</code> : repère les doublons IP/nom réseau pour le même serveur, et supprime-les tous avant de recréer quoi que ce soit.</li>
+        <li><strong>Supprime le mappage cassé</strong> (<code>net use Z: /delete</code>) puis le credential associé (<code>cmdkey /delete:NomDuServeur</code>). Ferme d'abord les explorateurs ouverts sur ce lecteur si la suppression refuse.</li>
+        <li><strong>Resaisis le mot de passe en mode masqué</strong> (jamais en clair dans un script) et recrée un mappage persistant. C'est exactement ce que fait le premier des deux scripts proposés en ressource de cet article.</li>
+        <li><strong>Si une tâche planifiée gérait ce mot de passe automatiquement, traque-la</strong> et vérifie si elle entoure bien ses valeurs sensibles de guillemets. Si ce n'est pas le cas, c'est probablement ta cause racine.</li>
+        <li><strong>Une fois corrigé, ajoute un filet de sécurité</strong> qui revérifie l'accès au lecteur à chaque connexion, sans jamais stocker de mot de passe nulle part. Le second script fourni fait exactement ça.</li>
+      </ul>
+
+      <p>La prochaine fois qu'un lecteur réseau te lâche un « compte verrouillé » sorti de nulle part, tu sauras résister au réflexe d'accuser un collègue ou un pirate imaginaire. Tu iras directement lire ce que la machine a vraiment fait, et il y a de bonnes chances que tu trouves, planqué dans une commande, un simple espace oublié entre deux guillemets manquants. Le genre de détail qui ne pardonne rien et qui n'explique jamais, jamais, rien tout seul.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows-server/identity/ad-ds/manage/component-updates/credential-security-support-provider-cssp" target="_blank" rel="noopener noreferrer">Microsoft Learn · Stockage des informations d'identification Windows</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows-server/identity/ad-ds/manage/understand-account-lockout-policy-settings" target="_blank" rel="noopener noreferrer">Microsoft Learn · Comprendre les paramètres de verrouillage de compte</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows/security/threat-protection/auditing/event-4625" target="_blank" rel="noopener noreferrer">Microsoft Learn · Événement de sécurité 4625 (échec de connexion)</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows-server/administration/windows-commands/cmdkey" target="_blank" rel="noopener noreferrer">Microsoft Learn · Référence de la commande cmdkey</a></li>
+      </ul>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-text"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// à emporter</div>
+          <strong>Deux scripts PowerShell · nettoyer puis sécuriser un mappage réseau cassé</strong>
+          <p>Le premier supprime le mauvais credential et recrée un mappage propre, mot de passe saisi en mode masqué, jamais écrit en clair. Le second ajoute un filet de sécurité qui revérifie l'accès à chaque connexion, sans jamais stocker de mot de passe.</p>
+          <a href="https://ko-fi.com/s/8fc8ddf20e" class="btn btn-dl" target="_blank" rel="noopener">Télécharger · gratuit</a>
+        </div>
+      </div>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne · gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr · égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
