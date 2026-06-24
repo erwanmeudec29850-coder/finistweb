@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ton script de mappage réseau planque un mot de passe en clair, et ça va te le faire payer · finistweb.fr</title>
+<meta name="description" content="Mettre un mot de passe en dur dans un script ou une tâche planifiée semble pratique. C'est en réalité une porte ouverte à n'importe qui passe par le Planificateur de tâches. Voici pourquoi, et comment s'en sortir sans jamais stocker un mot de passe nulle part.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link active">scripts</a>
+        <a href="articles.html" class="nav-link">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="scripts.html">~/scripts</a> / <span>mot-de-passe-script-clair</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">réseau</span>
+      <h1 class="article-title">Ton script de mappage réseau planque un mot de passe en clair, et ça va te le faire payer</h1>
+      <p class="article-lead">Mettre le mot de passe en dur dans un script, c'est le réflexe le plus naturel du monde quand on veut éviter de le ressaisir à chaque connexion. C'est aussi la décision qui transforme ton Planificateur de tâches en coffre-fort ouvert. Il existe une façon de faire la même chose sans jamais écrire un seul mot de passe en clair, nulle part.</p>
+      <div class="article-meta">
+        <span>24 juin 2026</span><span class="dot"></span><span>8 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Il y a un geste qu'on a tous fait au moins une fois en démarrant sur ce métier : ouvrir un script trouvé sur un forum, ou en écrire un soi-même en vitesse, et taper le mot de passe du compte de service directement dans la ligne de commande. Ça marche. Tout de suite. Le lecteur réseau se mappe, la tâche planifiée tourne toute seule, plus personne ne ressaisit rien le matin. Sauf qu'il y a un endroit où ce mot de passe va se loger, et ce n'est pas un endroit secret du tout. On y revient, parce que ça vaut le coup de le vérifier sur ta propre machine avant de continuer à lire.</p>
+
+      <h2>Pourquoi ce mot de passe en dur ne semble dangereux pour personne</h2>
+      <p>Un mot de passe tapé dans un script, ça ne ressemble à rien de grave sur le moment. Il n'y a pas d'alerte rouge, pas de message d'avertissement de Windows, pas de virus qui s'allume. La ligne de commande s'exécute, le mappage se crée, tout fonctionne. Et c'est exactement ce silence qui pose problème : ton cerveau associe le danger à un signal visible. Pas de signal, pas de danger perçu. Sauf que la sécurité informatique ne fonctionne pas comme une alarme incendie. Elle fonctionne comme une serrure : soit elle protège, soit elle ne protège pas, et rien ne clignote pour te le rappeler.</p>
+      <p>Un fichier <code>.ps1</code> ou un fichier de tâche planifiée XML, ce n'est rien d'autre qu'un fichier texte. N'importe qui peut l'ouvrir avec le Bloc-notes. Pas besoin de pirater quoi que ce soit, juste de savoir où chercher.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est comme écrire le code de ton digicode au feutre, juste à côté de la porte, parce que c'est plus pratique que de le retenir par cœur. Personne ne force la porte. Personne n'a besoin de la forcer.</p>
+      </div>
+
+      <h2>Le Planificateur de tâches : la salle d'attente que personne ne ferme à clé</h2>
+      <p>Sur un poste Windows classique, n'importe quel utilisateur du poste peut ouvrir le Planificateur de tâches (<code>taskschd.msc</code>) et consulter le détail d'une tâche existante, y compris la ligne de commande exacte et ses arguments. Pas besoin d'être administrateur pour lire ça : un compte standard suffit, dans bien des configurations, pour voir ce qui a été écrit dans la commande. Et le fichier de définition de la tâche, lui, traîne sur le disque dans <code>C:\Windows\System32\Tasks\</code>, lisible comme n'importe quel fichier XML.</p>
+      <p>Le piège, c'est de croire qu'une tâche planifiée est un endroit privé parce qu'elle tourne en arrière-plan, invisible à l'écran. En réalité, c'est tout l'inverse : c'est un endroit public, accessible à quiconque a une session ouverte sur la machine, ou même un simple accès au disque.</p>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Une tâche planifiée qui tourne sans fenêtre visible n'est pas une tâche cachée. C'est juste une tâche silencieuse. Silencieux et caché, ce n'est pas le même mot.</p>
+      </div>
+
+      <h2>Le retournement : ce n'est presque jamais un pirate qui exploite ça</h2>
+      <p>L'intuition naturelle, ici, c'est d'imaginer un attaquant extérieur, un malware qui scanne le disque à la recherche de mots de passe. Cette menace existe, mais dans la réalité du terrain, le scénario le plus fréquent est beaucoup moins spectaculaire : c'est un collègue curieux, un stagiaire qui traîne, ou simplement toi-même six mois plus tard, qui rouvre le script pour le modifier et tombe sur un mot de passe que tu avais oublié d'effacer avant de le transmettre. Le risque n'a pas besoin d'un génie du mal pour se réaliser. Il a juste besoin de quelqu'un qui regarde au bon endroit, sans même chercher à mal faire.</p>
+      <p>Et ce mot de passe en clair, une fois lu, donne un accès qui dépasse largement le simple lecteur réseau qu'on voulait automatiser. S'il s'agit d'un compte de service réutilisé ailleurs (ce qui arrive très souvent par flemme de créer un compte dédié), c'est une porte d'entrée vers bien plus que le partage <code>\\serveur\commun</code> visé à l'origine.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>Ce n'est pas un cambrioleur qui crochète la serrure. C'est un voisin qui passe arroser tes plantes pendant les vacances, voit la clé qui dépasse sous le pot de fleurs, et la prend en photo sans même y penser deux fois. Le danger ne vient presque jamais de là où on l'imagine.</p>
+      </div>
+
+      <h2>Le coffre Windows : la bonne case pour ranger un mot de passe</h2>
+      <p>Si un mot de passe ne doit jamais vivre dans un fichier texte, où doit-il vivre ? Windows a déjà la réponse intégrée depuis longtemps : le Gestionnaire d'identification, ce même coffre chiffré qui retient ton mot de passe Wi-Fi sans jamais te le réafficher en clair. La commande <code>cmdkey /add</code> permet d'y enregistrer un identifiant et un mot de passe pour un serveur donné, une seule fois, en saisie masquée. Une fois ce credential dans le coffre, Windows s'en sert tout seul pour authentifier les connexions à ce serveur, sans qu'aucun script n'ait jamais besoin de connaître le mot de passe, ni de le réécrire.</p>
+      <p>C'est exactement la bascule qui change tout : un script qui se contente de vérifier qu'un lecteur est bien monté, et de le remonter si besoin, n'a besoin de rien savoir. Il délègue entièrement la question du mot de passe au coffre Windows, qui s'en occupe en coulisses.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Avant d'écrire la moindre ligne d'automatisation réseau, pose-toi une question simple : est-ce que ce script a vraiment besoin de connaître le mot de passe, ou a-t-il juste besoin que la connexion fonctionne ? Dans l'immense majorité des cas, c'est la deuxième réponse qui est la bonne, et ça change toute la conception du script.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Un mot de passe contenant un espace, et enregistré sans guillemets autour de lui dans une commande automatisée, sera tronqué silencieusement au premier espace rencontré. Le credential stocké sera alors faux sans le moindre message d'erreur, ce qui mène tout droit à un verrouillage de compte côté serveur après une série d'échecs répétés. C'est un piège différent de celui du mot de passe en clair, mais il vient de la même négligence : automatiser un mot de passe sans réfléchir à la façon dont il transite.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Ouvre le Planificateur de tâches</strong> (<code>taskschd.msc</code>) sur un poste que tu gères et regarde le détail des tâches existantes liées au réseau. Si une commande affiche un mot de passe en clair dans ses arguments, tu as ta réponse.</li>
+        <li><strong>Vérifie aussi les fichiers <code>.ps1</code> ou <code>.bat</code> qui traînent</strong> dans des dossiers partagés ou des dépôts de scripts : un mot de passe en dur s'y planque facilement, surtout dans un script écrit vite, un jour de rush.</li>
+        <li><strong>Enregistre le credential une bonne fois</strong> avec <code>cmdkey /add:NomDuServeur /user:NomDuCompte /pass</code>, en saisie masquée, jamais collé dans une ligne de script visible.</li>
+        <li><strong>Réécris le script d'automatisation</strong> pour qu'il s'appuie uniquement sur ce credential déjà enregistré (<code>net use</code> sans mot de passe explicite), sans jamais le manipuler lui-même.</li>
+        <li><strong>Mets en place un filet de sécurité qui revérifie l'accès à chaque ouverture de session</strong>, sans jamais stocker de mot de passe nulle part. C'est exactement ce que fait le second des deux scripts proposés en ressource de cet article.</li>
+        <li><strong>Si tu trouves un ancien mot de passe en clair quelque part, change-le</strong> avant de simplement nettoyer le fichier. Le fichier nettoyé ne corrige rien du passé.</li>
+      </ul>
+
+      <p>La prochaine fois qu'un script d'automatisation réseau te paraîtra plus simple à écrire avec le mot de passe collé dedans, tu sauras résister à cette facilité de cinq minutes. Le coffre Windows existe précisément pour ça, et une fois qu'on a pris l'habitude de s'appuyer sur lui, on ne revient jamais en arrière. Le digicode reste dans la mémoire, pas sur un post-it collé à la porte.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows-server/administration/windows-commands/cmdkey" target="_blank" rel="noopener noreferrer">Microsoft Learn · Référence de la commande cmdkey</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows-server/security/windows-authentication/credentials-processes-in-windows-authentication" target="_blank" rel="noopener noreferrer">Microsoft Learn · Processus des informations d'identification dans l'authentification Windows</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/windows/win32/taskschd/task-scheduler-start-page" target="_blank" rel="noopener noreferrer">Microsoft Learn · Vue d'ensemble du Planificateur de tâches</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/powershell/scripting/security/security-considerations-when-storing-secrets" target="_blank" rel="noopener noreferrer">Microsoft Learn · Bonnes pratiques pour le stockage des secrets dans PowerShell</a></li>
+      </ul>
+
+      <div class="resource-block">
+        <div class="resource-icon"><i class="ph-fill ph-file-text"></i></div>
+        <div class="resource-body">
+          <div class="resource-label">// à emporter</div>
+          <strong>Deux scripts PowerShell · nettoyer puis sécuriser un mappage réseau cassé</strong>
+          <p>Le premier supprime le mauvais credential et recrée un mappage propre, mot de passe saisi en mode masqué, jamais écrit en clair. Le second ajoute un filet de sécurité qui revérifie l'accès à chaque connexion, sans jamais stocker de mot de passe.</p>
+          <a href="https://ko-fi.com/s/8fc8ddf20e" class="btn btn-dl" target="_blank" rel="noopener">Télécharger · gratuit</a>
+        </div>
+      </div>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne · gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr · égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
