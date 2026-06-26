@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un fichier Excel sur OneDrive qui s'ouvre... ou pas. Le bug n'est pas où tu crois · finistweb.fr</title>
+<meta name="description" content="Un fichier Excel sur OneDrive s'ouvre une fois sur deux, sans message d'erreur. Avant d'accuser le fichier ou ton compte, il y a un suspect que personne ne regarde jamais : ton propre navigateur.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></a>
+      <div class="nav-menu">
+        <a href="scripts.html" class="nav-link">scripts</a>
+        <a href="articles.html" class="nav-link active">articles</a>
+        <a href="mailto:erwan@finistweb.fr" class="nav-cta">me contacter</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="article read">
+    <div class="breadcrumb"><a href="articles.html">~/articles</a> / <span>excel-onedrive-page-blanche</span></div>
+
+    <header class="article-head">
+      <span class="tag tag-signal brackets">système & windows</span>
+      <h1 class="article-title">Un fichier Excel sur OneDrive qui s'ouvre... ou pas. Le bug n'est pas où tu crois</h1>
+      <p class="article-lead">Même fichier, même utilisateur, même clic. Une fois ça marche, une fois ça affiche une page blanche, sans le moindre message d'erreur. Le réflexe naturel, c'est de suspecter le fichier. Le vrai coupable, lui, vit dans la barre d'outils du navigateur depuis le premier jour, et personne ne pense jamais à le regarder.</p>
+      <div class="article-meta">
+        <span>26 juin 2026</span><span class="dot"></span><span>7 min de lecture</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+
+      <p>Un utilisateur t'appelle avec un problème qui n'a aucun sens à première écoute : "des fois ça marche, des fois non". Il clique sur un fichier Excel dans OneDrive, ça s'ouvre normalement. Il clique sur le même fichier dix minutes plus tard, page blanche. Pas de message d'erreur, pas de croix rouge, rien. Juste un <code>about:blank</code> qui le regarde fixement. Ce genre de symptôme aléatoire est exactement le type de panne qui fait perdre le plus de temps, parce que le cerveau cherche une explication qui colle à chaque tentative, alors que la vraie cause est ailleurs, et qu'elle, ne bouge jamais.</p>
+
+      <h2>Pourquoi "ça marche au hasard" te fait chercher au mauvais endroit</h2>
+      <p>Face à un comportement aléatoire, le réflexe presque universel, c'est de soupçonner le fichier : peut-être qu'il est corrompu, peut-être qu'il est trop lourd, peut-être qu'il y a un souci de synchronisation OneDrive. Le problème, c'est que ce raisonnement part d'un postulat faux : il suppose que si le comportement varie, c'est forcément la donnée qui varie. Or il existe une autre catégorie de cause, beaucoup plus fréquente que ce qu'on imagine : un filtre qui intervient entre toi et le fichier, et qui ne bloque pas tout le temps, ni tout, ni de la même façon.</p>
+      <p>Une extension de blocage de contenu (anti-pub, anti-traceur, peu importe le nom) ne se contente pas de masquer des bannières publicitaires. Elle inspecte chaque requête réseau qui sort de ton navigateur, et décide, sur des critères qui lui sont propres, de la laisser passer ou de la couper. Excel Online envoie des dizaines de petites requêtes à chaque ouverture de fichier : récupération du contenu, rendu des cellules, chargement de scripts. Si l'extension en bloque une seule, au mauvais moment, la page reste blanche, et rien dans l'interface ne te dit pourquoi.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est un videur de boîte de nuit qui ne lit jamais les mêmes papiers deux fois de la même façon. Certains soirs il te laisse passer sans un regard, d'autres soirs il refuse ta pièce d'identité pour une raison qu'il ne t'explique jamais. Le videur, c'est l'extension. La boîte de nuit, c'est Excel Online. Et toi, tu attends devant la porte en te demandant ce qui a changé chez toi, alors que c'est lui qui a changé d'humeur.</p>
+      </div>
+
+      <div class="callout callout-memo">
+        <div class="callout-label">// à retenir</div>
+        <p>Un blocage silencieux n'affiche jamais d'erreur, parce que ce n'est pas une erreur de ton point de vue : c'est l'extension qui fait exactement le travail pour lequel elle a été installée. Elle ne sait juste pas qu'elle bloque la mauvaise chose.</p>
+      </div>
+
+      <h2>La méthode qui isole la cause sans deviner</h2>
+      <p>Plutôt que de partir directement sur "c'est l'extension", il vaut mieux avancer par élimination, parce qu'une supposition qui se révèle fausse te coûte plus de temps qu'une vérification de trente secondes. L'idée, c'est de retirer une variable à la fois jusqu'à ce que le symptôme disparaisse, et de savoir exactement laquelle a tout réglé.</p>
+
+      <ol class="steps">
+        <li><strong>Isole le compte de la configuration.</strong> Connecte-toi avec un compte différent (admin du tenant ou simple second compte) sur le même poste et le même navigateur. Si les fichiers s'ouvrent sans souci, le problème vit dans le profil de l'utilisateur, pas dans le fichier ni dans le tenant Microsoft 365 lui-même.</li>
+        <li><strong>Reconnecte la session.</strong> Déconnexion complète depuis le site, fermeture totale du navigateur, reconnexion propre. Cette étape régénère le jeton d'authentification. Elle résout les sessions corrompues ou expirées, mais rien d'autre.</li>
+        <li><strong>Change de navigateur pour confirmer.</strong> Teste l'ouverture des mêmes fichiers sous un autre navigateur, avec le même compte. Si ça fonctionne là où ça échouait avant, la cause est propre au navigateur d'origine : extension, paramètre, ou configuration locale.</li>
+        <li><strong>Désactive l'extension suspecte sur les domaines concernés.</strong> Mets en pause l'extension de blocage sur les domaines Microsoft (OneDrive, Office, SharePoint), recharge la page, et teste à nouveau.</li>
+      </ol>
+
+      <p>Le détail qui change tout dans cette méthode : chaque étape élimine une cause précise, et une seule. Si l'étape 2 (reconnexion) ne change rien mais que l'étape 3 (changement de navigateur) règle tout, tu sais déjà, sans avoir touché à une seule extension, que le problème est local au navigateur d'origine. Tu n'as plus qu'à chercher quoi dans ce navigateur, pas à recommencer un diagnostic à zéro.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-label"><i class="ph-fill ph-check-circle"></i> le bon réflexe</div>
+        <p>Si désactiver une extension précise ne suffit pas, désactive-les toutes d'un coup puis réactive-les une par une en testant entre chaque. Ça prend deux minutes de plus, mais ça t'évite de t'arrêter sur le premier suspect plausible alors qu'une autre extension fait le coup en parallèle.</p>
+      </div>
+
+      <h2>Pourquoi le même problème ne touche presque jamais Edge</h2>
+      <p>À ce stade, beaucoup de gens en concluent qu'Edge est "mieux" que Chrome, dans l'absolu, comme si c'était une question de qualité générale du navigateur. Ce n'est pas tout à fait ça. Edge est développé par Microsoft, sur la même base technique que les services Microsoft 365 qu'il affiche. La communication entre le navigateur et le service est pensée par la même équipe, optimisée pour ce cas précis. Chrome, lui, n'a aucune obligation ni intérêt particulier à dialoguer parfaitement avec Excel Online : c'est un navigateur généraliste, ouvert à des milliers d'extensions tierces qui n'ont elles-mêmes aucune idée de l'existence d'Excel Online.</p>
+
+      <div class="callout callout-analogy">
+        <div class="callout-label"><i class="ph-fill ph-lightbulb-filament"></i> l'image à garder</div>
+        <p>C'est la différence entre rentrer chez toi avec ta propre clé, et rentrer chez un ami en frappant à la porte en espérant qu'il t'ouvre. Edge et Microsoft 365, c'est la même maison : la clé rentre toujours, parce qu'elle a été taillée pour cette porte précise. Chrome, c'est toi qui frappes chez quelqu'un d'autre, et entre la porte et toi, n'importe quel voisin un peu zélé (ton extension) peut décider de te bloquer le passage sans même te prévenir.</p>
+      </div>
+
+      <p>Ça ne veut pas dire qu'il faut abandonner Chrome pour autant. Ça veut dire que, pour les outils Microsoft 365 spécifiquement, le chemin le plus direct existe déjà et qu'il vaut souvent mieux l'utiliser plutôt que de batailler contre un filtre qui n'a jamais été conçu pour ce site.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-label"><i class="ph-fill ph-warning"></i> attention</div>
+        <p>Une page blanche persistante n'est pas toujours un blocage d'extension. Vérifie aussi la licence Microsoft 365 active sur le compte : un utilisateur sans licence permettant l'usage des apps Office en ligne peut voir exactement le même symptôme. Et un fichier dans un ancien format ou avec des macros complexes peut, lui aussi, refuser de s'afficher sans message clair. Avant de conclure "c'est l'extension", élimine ces deux pistes en parallèle.</p>
+      </div>
+
+      <h2>Ce que tu fais en vrai, concrètement</h2>
+      <ul>
+        <li><strong>Teste avec un autre compte</strong> sur le même poste et le même navigateur, pour savoir tout de suite si la cause est côté compte ou côté configuration locale.</li>
+        <li><strong>Déconnecte/reconnecte la session</strong> avant toute autre manipulation : c'est gratuit, rapide, et ça élimine une cause fréquente sans rien désinstaller.</li>
+        <li><strong>Change de navigateur pour confirmer</strong> avant d'accuser une extension précise. C'est le test qui donne la réponse la plus fiable en un minimum de clics.</li>
+        <li><strong>Désactive les extensions de blocage sur les domaines Microsoft</strong> (OneDrive, Office, SharePoint) plutôt que de les désinstaller complètement, ça résout le problème sans priver l'utilisateur de son confort de navigation ailleurs.</li>
+        <li><strong>Vérifie la licence et le format du fichier</strong> en parallèle si le symptôme persiste après avoir écarté la piste navigateur : ce sont les deux autres causes classiques d'une page blanche sans message d'erreur.</li>
+      </ul>
+
+      <p>La prochaine fois qu'un comportement "aléatoire" te tombe dessus, tu ne vas plus chercher du côté du fichier en premier réflexe. Tu sais maintenant qu'un symptôme qui va et vient sans logique apparente pointe très souvent vers un filtre invisible plutôt qu'une donnée instable. Et que la méthode pour le débusquer prend cinq minutes, pas une après-midi à tout réinstaller pour voir si ça repart.</p>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://learn.microsoft.com/fr-fr/microsoft-365/admin/manage/which-office-applications-can-i-install" target="_blank" rel="noopener noreferrer">Microsoft Learn — Applications Office disponibles selon la licence Microsoft 365</a></li>
+        <li><a href="https://support.google.com/chrome/answer/2765944" target="_blank" rel="noopener noreferrer">Aide Google Chrome — Gérer les extensions et leur activation par site</a></li>
+        <li><a href="https://learn.microsoft.com/fr-fr/microsoft-365/troubleshoot/miscellaneous/file-doesnt-open-from-onedrive-or-sharepoint" target="_blank" rel="noopener noreferrer">Microsoft Learn — Résoudre les problèmes d'ouverture de fichiers depuis OneDrive ou SharePoint</a></li>
+      </ul>
+
+      <div class="support-block">
+        <p>Ce site est gratuit et le restera. Si un truc t'a aidé et que tu veux soutenir, tu peux <a href="https://ko-fi.com/erwanfinistwebfr" target="_blank" rel="noopener">m'offrir un café</a>. Et si tu prends juste l'outil et que tu files, c'est très bien aussi.</p>
+      </div>
+
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><span class="pfx">~/</span>finistweb<span class="sfx">.fr</span></div>
+        <p class="footer-tagline">La technique qu'on t'a cachée. Je te la donne — gratuit ou à prix libre.</p>
+        <div class="footer-by"><span class="dot"></span>par Erwan Meudec · technicien IT</div>
+      </div>
+      <div>
+        <div class="footer-head">Le site</div>
+        <a href="index.html" class="footer-link">Accueil</a>
+        <a href="scripts.html" class="footer-link">Scripts</a>
+        <a href="articles.html" class="footer-link">Articles</a>
+      </div>
+      <div>
+        <div class="footer-head">Ailleurs</div>
+        <a href="https://github.com/erwanmeudec29850-coder" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ko-fi.com/erwanfinistwebfr" class="footer-link" target="_blank" rel="noopener">Ko-fi</a>
+        <a href="https://www.linkedin.com/in/erwan-meudec/" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Erwan Meudec</span>
+      <span>finistweb.fr — égal à égal, on te donne tout</span>
+    </div>
+  </footer>
+
+</body>
+</html>
